@@ -68,3 +68,21 @@ export function deal(deck: ShuffledDeck): Card
     }
     return deck.deck[deck.index-1]
 }
+
+export function join(a: Deck, b: Deck)
+{
+    return a.concat(b);
+}
+
+/*
+** Remove Card from a Deck
+*/
+export function remove(card: Card, deck: Deck): Deck 
+{
+    let index = deck.indexOf(card);
+    if (index == -1) {
+        return deck;
+    } else {
+        return join(deck.slice(0, index), deck.slice(index+1))
+    }
+}

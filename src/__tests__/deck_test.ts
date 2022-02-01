@@ -2,17 +2,32 @@ import 'jest';
 import * as Deck from '../models/Deck';
 import * as Card from '../models/Card';
 
-let cards = Card.from_names(["a", "b", "c"])
+
 
 test('Shuffled Deck initiated properly', () => {
+    let cards = Card.from_names(["a", "b", "c"])
     let deck = new Deck.ShuffledDeck(cards); 
     expect(deck.deck).toEqual(cards);
     expect(deck.index).toEqual(0);
     expect(Deck.as_string(deck.deck)).toEqual("a, b, c");
 })
 
+test('removing cards from a deck', () => {
+    let cards = Card.from_names(["a", "b", "c"])
+    cards.push({name: "a"});
+    let [a, b, c, other_a] = cards;
+    let d = {name: "d"}
+    let deck = cards;
+    expect(Deck.remove(a, deck)).toEqual([b, c, other_a]);
+    expect(Deck.remove(b, deck)).toEqual([a, c, other_a]);
+    expect(Deck.remove(c, deck)).toEqual([a, b, other_a]);
+    expect(Deck.remove(other_a, deck)).toEqual([a, b, c]);
+    expect(Deck.remove(d, deck)).toEqual([a, b, c, other_a]);
+})
+
 
 test('ShuffledDeck dealing cards', () => {
+    let cards = Card.from_names(["a", "b", "c"])
     let [a, b, c] = cards;
     let deck = new Deck.ShuffledDeck(cards); 
     expect(deck.deck).toEqual(cards);
@@ -52,9 +67,4 @@ test('ShuffledDeck dealing cards', () => {
     expect(deck.undealt_cards).toEqual([]);
     expect(deck.dealt_cards).toEqual([a, b, c]);
     expect(deck.is_exhausted).toEqual(true);
-})
-
-test('Deck shuffling', () => {
-    let [a, b, c] = cards;
-    let deck = new Deck.ShuffledDeck(cards);
 })
