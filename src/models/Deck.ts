@@ -86,3 +86,13 @@ export function remove(card: Card, deck: Deck): Deck
         return join(deck.slice(0, index), deck.slice(index+1))
     }
 }
+
+/*
+** Add Card to the end of the Deck return a new deck
+*/
+export function append(card: Card, deck: Deck): Deck
+{
+    let new_deck = deck.slice()
+    new_deck.push(card);
+    return new_deck;
+}

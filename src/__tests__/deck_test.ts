@@ -12,6 +12,17 @@ test('Shuffled Deck initiated properly', () => {
     expect(Deck.as_string(deck.deck)).toEqual("a, b, c");
 })
 
+test('appending cards to a deck', () => {
+    let cards = Card.from_names(["a", "b", "c"])
+    let [a, b, c] = cards;
+    let d = {name: "d"}
+    let e = {name: "e"}
+    let deck = cards;
+    expect(Deck.append(d, deck)).toEqual([a, b, c, d]);
+    expect(Deck.append(e, deck)).toEqual([a, b, c, e]);
+    expect(Deck.append(e, deck)).not.toEqual(deck);
+})
+
 test('removing cards from a deck', () => {
     let cards = Card.from_names(["a", "b", "c"])
     cards.push({name: "a"});
