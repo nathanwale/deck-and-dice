@@ -5,7 +5,7 @@ import * as random from '../random'
 ** Represents a deck of cards.
 ** Is NOT shuffled
 */
-type Deck = Card[];
+export type Deck = Card[];
 
 /*
 ** Represents a shuffled deck of cards.
@@ -34,6 +34,12 @@ export class ShuffledDeck
     }
 }
 
+export function as_string(deck: Deck): string
+{
+    let names = deck.map((card) => card.name);
+    return names.join(", ")
+}
+
 /*
 ** Accepts a Deck. Shuffles it,
 ** and returns a ShuffledDeck
@@ -60,5 +66,5 @@ export function deal(deck: ShuffledDeck): Card
     if (!deck.is_exhausted) {
         deck.index++
     }
-    return deck[deck.index-1]
+    return deck.deck[deck.index-1]
 }

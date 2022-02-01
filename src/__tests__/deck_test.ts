@@ -8,10 +8,11 @@ test('Shuffled Deck initiated properly', () => {
     let deck = new Deck.ShuffledDeck(cards); 
     expect(deck.deck).toEqual(cards);
     expect(deck.index).toEqual(0);
+    expect(Deck.as_string(deck.deck)).toEqual("a, b, c");
 })
 
 
-test('Deck dealing cards', () => {
+test('ShuffledDeck dealing cards', () => {
     let [a, b, c] = cards;
     let deck = new Deck.ShuffledDeck(cards); 
     expect(deck.deck).toEqual(cards);
@@ -51,4 +52,9 @@ test('Deck dealing cards', () => {
     expect(deck.undealt_cards).toEqual([]);
     expect(deck.dealt_cards).toEqual([a, b, c]);
     expect(deck.is_exhausted).toEqual(true);
+})
+
+test('Deck shuffling', () => {
+    let [a, b, c] = cards;
+    let deck = new Deck.ShuffledDeck(cards);
 })
