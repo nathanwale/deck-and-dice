@@ -1,5 +1,6 @@
 import { Card } from './Card'
 import * as random from '../random'
+import { createReadStream } from 'fs';
 
 /*
 ** Represents a deck of cards.
@@ -12,26 +13,10 @@ export type Deck = Card[];
 ** Has been shuffled, and has an order
 **      `index` represents 
 */
-export class ShuffledDeck
-{
-    deck: Deck
-    index: number = 0
 
-    get is_exhausted(): boolean {
-        return (this.index >= this.deck.length)
-    }
-
-    constructor(deck: Deck) {
-        this.deck = deck
-    }
-
-    get dealt_cards(): Deck {
-        return this.deck.slice(0, this.index);
-    }
-
-    get undealt_cards(): Deck {
-        return this.deck.slice(this.index)
-    }
+export type ShuffledDeck = {
+    cards: Deck,
+    index: number
 }
 
 export function as_string(deck: Deck): string
@@ -46,8 +31,11 @@ export function as_string(deck: Deck): string
 */
 export function shuffle(deck: Deck): ShuffledDeck 
 {
-    let shuffled_deck = random.shuffle(deck);
-    return new ShuffledDeck(shuffled_deck)
+    let shuffled_cards = random.shuffle(deck);
+    return {
+        cards: shuffled_cards,
+        index: 0
+    }
 }
 
 /*
@@ -59,14 +47,24 @@ export function pick(deck: Deck): Card
 }
 
 /*
+** Has deck finished dealing?
+*/
+export function is_exhausted(deck: ShuffledDeck): boolean
+{
+    let { cards, index } = deck;
+    return (index >= cards.length)
+}
+
+/*
 ** Deal the next Card from a ShuffledDeck
 */
-export function deal(deck: ShuffledDeck): Card 
+export function deal(deck: ShuffledDeck): [Card, ShuffledDeck]
 {
-    if (!deck.is_exhausted) {
+    let { cards, index } = deck;
+    if (!is_exhausted(deck)) {
         deck.index++
     }
-    return deck.deck[deck.index-1]
+    return [cards[deck.index-1], deck]
 }
 
 export function join(a: Deck, b: Deck)
@@ -95,4 +93,22 @@ export function append(card: Card, deck: Deck): Deck
     let new_deck = deck.slice()
     new_deck.push(card);
     return new_deck;
+}
+
+/*
+** Cards that haven't been dealt yet
+*/
+export function undealt_cards(deck: ShuffledDeck): Deck
+{
+    let { cards, index } = deck;
+    return cards.slice(index)
+}
+
+/*
+** Cards that have been dealt already
+*/
+export function dealt_cards(deck: ShuffledDeck): Deck
+{
+    let { cards, index } = deck;
+    return cards.slice(0, index)
 }

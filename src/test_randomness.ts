@@ -7,7 +7,7 @@ function test_shuffle() {
         "Card shuffle",
         1000000,
         () => Deck.shuffle(cards),
-        (deck: Deck.ShuffledDeck) => Deck.as_string(deck.deck)
+        (deck: Deck.ShuffledDeck) => Deck.as_string(deck.cards)
     )
 }
 

@@ -6,10 +6,10 @@ import * as Card from '../models/Card';
 
 test('Shuffled Deck initiated properly', () => {
     let cards = Card.from_names(["a", "b", "c"])
-    let deck = new Deck.ShuffledDeck(cards); 
-    expect(deck.deck).toEqual(cards);
+    let deck: Deck.ShuffledDeck = { cards: cards, index: 0 };
+    expect(deck.cards).toEqual(cards);
     expect(deck.index).toEqual(0);
-    expect(Deck.as_string(deck.deck)).toEqual("a, b, c");
+    expect(Deck.as_string(deck.cards)).toEqual("a, b, c");
 })
 
 test('appending cards to a deck', () => {
@@ -40,42 +40,33 @@ test('removing cards from a deck', () => {
 test('ShuffledDeck dealing cards', () => {
     let cards = Card.from_names(["a", "b", "c"])
     let [a, b, c] = cards;
-    let deck = new Deck.ShuffledDeck(cards); 
-    expect(deck.deck).toEqual(cards);
-    expect(deck.undealt_cards).toEqual(cards);
-    expect(deck.dealt_cards).toEqual([]);
-    expect(deck.is_exhausted).toEqual(false);
-    expect(deck.index).toEqual(0);
+    let deck: Deck.ShuffledDeck = { cards: cards, index: 0 };
 
-    // deal
-    expect(Deck.deal(deck)).toEqual(a);
-    expect(deck.index).toEqual(1);
-    expect(deck.deck).toEqual(cards);
-    expect(deck.undealt_cards).toEqual([b, c]);
-    expect(deck.dealt_cards).toEqual([a]);
-    expect(deck.is_exhausted).toEqual(false);
+    function expect_deck (
+        index: number, 
+        undealt_cards: Deck.Deck, 
+        dealt_cards: Deck.Deck, 
+        exhausted: boolean) 
+    {
+        expect(deck.index).toEqual(index);
+        expect(deck.cards).toEqual(cards);
+        expect(Deck.undealt_cards(deck)).toEqual(undealt_cards);
+        expect(Deck.dealt_cards(deck)).toEqual(dealt_cards);
+        expect(Deck.is_exhausted(deck)).toEqual(exhausted);
+    }
 
-    // deal
-    expect(Deck.deal(deck)).toEqual(b);
-    expect(deck.index).toEqual(2);
-    expect(deck.deck).toEqual(cards);
-    expect(deck.undealt_cards).toEqual([c]);
-    expect(deck.dealt_cards).toEqual([a, b]);
-    expect(deck.is_exhausted).toEqual(false);
+    function expect_deal (
+        dealt_card: Card.Card, index: number, 
+        undealt_cards: Deck.Deck, dealt_cards: Deck.Deck, 
+        exhausted: boolean) 
+    {
+        expect(Deck.deal(deck)).toEqual([dealt_card, { index: index, cards: cards }]);
+        expect_deck(index, undealt_cards, dealt_cards, exhausted);   
+    }
 
-    // deal
-    expect(Deck.deal(deck)).toEqual(c);
-    expect(deck.index).toEqual(3);
-    expect(deck.deck).toEqual(cards);
-    expect(deck.undealt_cards).toEqual([]);
-    expect(deck.dealt_cards).toEqual([a, b, c]);
-    expect(deck.is_exhausted).toEqual(true);
-
-    // deal
-    expect(Deck.deal(deck)).toEqual(c);
-    expect(deck.index).toEqual(3);
-    expect(deck.deck).toEqual(cards);
-    expect(deck.undealt_cards).toEqual([]);
-    expect(deck.dealt_cards).toEqual([a, b, c]);
-    expect(deck.is_exhausted).toEqual(true);
+    expect_deck(0, [a, b, c], [], false);
+    expect_deal(a, 1, [b, c], [a], false);
+    expect_deal(b, 2, [c], [a, b], false);
+    expect_deal(c, 3, [], [a, b, c], true);
+    expect_deal(c, 3, [], [a, b, c], true);
 })
