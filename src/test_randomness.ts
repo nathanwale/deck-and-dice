@@ -2,17 +2,21 @@ import * as Deck from './models/Deck'
 import * as Card from './models/Card'
 
 function test_shuffle() {
-    let cards = Card.from_names("abc".split(""));
+    let deck:Deck.Deck = {
+        cards: Card.from_names("abc".split(""))
+    }
     trial (
         "Card shuffle",
         1000000,
-        () => Deck.shuffle(cards),
-        (deck: Deck.ShuffledDeck) => Deck.as_string(deck.cards)
+        () => Deck.shuffle(deck),
+        (deck: Deck.ShuffledDeck) => Deck.as_string(deck)
     )
 }
 
 function test_pick() {
-    let deck = Card.from_names("abc".split(""));
+    let deck:Deck.Deck = {
+        cards: Card.from_names("abc".split(""))
+    }
     trial (
         "Pick a card",
         1000000,

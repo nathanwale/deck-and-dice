@@ -1,5 +1,6 @@
 export type Card = {
     name: string;
+    value?: number; 
 }
 
 export function from_names(names: string[]): Card[] {

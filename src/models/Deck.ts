@@ -1,12 +1,14 @@
 import { Card } from './Card'
 import * as random from '../random'
-import { createReadStream } from 'fs';
 
 /*
 ** Represents a deck of cards.
 ** Is NOT shuffled
 */
-export type Deck = Card[];
+export type Deck = {
+    cards: Card[],
+    latest?: Card 
+}
 
 /*
 ** Represents a shuffled deck of cards.
@@ -15,13 +17,13 @@ export type Deck = Card[];
 */
 
 export type ShuffledDeck = {
-    cards: Deck,
+    cards: Card[],
     index: number
 }
 
 export function as_string(deck: Deck): string
 {
-    let names = deck.map((card) => card.name);
+    let names = deck.cards.map((card) => card.name);
     return names.join(", ")
 }
 
@@ -31,7 +33,7 @@ export function as_string(deck: Deck): string
 */
 export function shuffle(deck: Deck): ShuffledDeck 
 {
-    let shuffled_cards = random.shuffle(deck);
+    let shuffled_cards = random.shuffle(deck.cards);
     return {
         cards: shuffled_cards,
         index: 0
@@ -41,9 +43,12 @@ export function shuffle(deck: Deck): ShuffledDeck
 /*
 ** Picks a random Card from the Deck
 */
-export function pick(deck: Deck): Card 
+export function pick(deck: Deck): Deck 
 {
-    return random.pick(deck)
+    return {
+        cards: deck.cards,
+        latest: random.pick(deck.cards)
+    }
 }
 
 /*
@@ -67,7 +72,7 @@ export function deal(deck: ShuffledDeck): [Card, ShuffledDeck]
     return [cards[deck.index-1], deck]
 }
 
-export function join(a: Deck, b: Deck)
+export function join<T>(a: T[], b: T[]): T[]
 {
     return a.concat(b);
 }
@@ -77,11 +82,15 @@ export function join(a: Deck, b: Deck)
 */
 export function remove(card: Card, deck: Deck): Deck 
 {
-    let index = deck.indexOf(card);
+    let index = deck.cards.indexOf(card);
     if (index == -1) {
         return deck;
     } else {
-        return join(deck.slice(0, index), deck.slice(index+1))
+        let cards = join(deck.cards.slice(0, index), deck.cards.slice(index+1));
+        return {
+            cards: cards,
+            latest: (card == deck.latest) ? undefined : deck.latest, // null if latest card happens to be the one we removed
+        }
     }
 }
 
@@ -90,15 +99,18 @@ export function remove(card: Card, deck: Deck): Deck
 */
 export function append(card: Card, deck: Deck): Deck
 {
-    let new_deck = deck.slice()
-    new_deck.push(card);
-    return new_deck;
+    let new_cards = deck.cards.slice()
+    new_cards.push(card);
+    return {
+        cards: new_cards,
+        latest: deck.latest
+    }
 }
 
 /*
 ** Cards that haven't been dealt yet
 */
-export function undealt_cards(deck: ShuffledDeck): Deck
+export function undealt_cards(deck: ShuffledDeck): Card[]
 {
     let { cards, index } = deck;
     return cards.slice(index)
@@ -107,7 +119,7 @@ export function undealt_cards(deck: ShuffledDeck): Deck
 /*
 ** Cards that have been dealt already
 */
-export function dealt_cards(deck: ShuffledDeck): Deck
+export function dealt_cards(deck: ShuffledDeck): Card[]
 {
     let { cards, index } = deck;
     return cards.slice(0, index)

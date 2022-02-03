@@ -9,7 +9,7 @@ test('Shuffled Deck initiated properly', () => {
     let deck: Deck.ShuffledDeck = { cards: cards, index: 0 };
     expect(deck.cards).toEqual(cards);
     expect(deck.index).toEqual(0);
-    expect(Deck.as_string(deck.cards)).toEqual("a, b, c");
+    expect(Deck.as_string(deck)).toEqual("a, b, c");
 })
 
 test('appending cards to a deck', () => {
@@ -17,9 +17,9 @@ test('appending cards to a deck', () => {
     let [a, b, c] = cards;
     let d = {name: "d"}
     let e = {name: "e"}
-    let deck = cards;
-    expect(Deck.append(d, deck)).toEqual([a, b, c, d]);
-    expect(Deck.append(e, deck)).toEqual([a, b, c, e]);
+    let deck = { cards: cards };
+    expect(Deck.append(d, deck)).toEqual({cards: [a, b, c, d]}); 
+    expect(Deck.append(e, deck)).toEqual({cards: [a, b, c, e]});
     expect(Deck.append(e, deck)).not.toEqual(deck);
 })
 
@@ -28,12 +28,15 @@ test('removing cards from a deck', () => {
     cards.push({name: "a"});
     let [a, b, c, other_a] = cards;
     let d = {name: "d"}
-    let deck = cards;
-    expect(Deck.remove(a, deck)).toEqual([b, c, other_a]);
-    expect(Deck.remove(b, deck)).toEqual([a, c, other_a]);
-    expect(Deck.remove(c, deck)).toEqual([a, b, other_a]);
-    expect(Deck.remove(other_a, deck)).toEqual([a, b, c]);
-    expect(Deck.remove(d, deck)).toEqual([a, b, c, other_a]);
+    let deck = { 
+        cards: cards,
+        latest: c
+     };
+    expect(Deck.remove(a, deck)).toEqual({ cards: [b, c, other_a], latest: c });
+    expect(Deck.remove(b, deck)).toEqual({ cards: [a, c, other_a], latest: c });
+    expect(Deck.remove(c, deck)).toEqual({ cards: [a, b, other_a], latest: undefined });
+    expect(Deck.remove(other_a, deck)).toEqual({ cards: [a, b, c], latest: c });
+    expect(Deck.remove(d, deck)).toEqual({ cards: [a, b, c, other_a], latest: c });
 })
 
 
@@ -44,8 +47,8 @@ test('ShuffledDeck dealing cards', () => {
 
     function expect_deck (
         index: number, 
-        undealt_cards: Deck.Deck, 
-        dealt_cards: Deck.Deck, 
+        undealt_cards: Card.Card[], 
+        dealt_cards: Card.Card[], 
         exhausted: boolean) 
     {
         expect(deck.index).toEqual(index);
@@ -57,7 +60,7 @@ test('ShuffledDeck dealing cards', () => {
 
     function expect_deal (
         dealt_card: Card.Card, index: number, 
-        undealt_cards: Deck.Deck, dealt_cards: Deck.Deck, 
+        undealt_cards: Card.Card[], dealt_cards: Card.Card[], 
         exhausted: boolean) 
     {
         expect(Deck.deal(deck)).toEqual([dealt_card, { index: index, cards: cards }]);
