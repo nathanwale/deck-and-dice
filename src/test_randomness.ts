@@ -1,27 +1,28 @@
-import * as Deck from './models/Deck'
-import * as Card from './models/Card'
+import { Oracle, Option, pick, options_from_names, shuffled_deck, new_table } from './models/Oracle'
+
+function as_string(deck: Oracle): string
+{
+    let names = deck.options.map((card) => card.name);
+    return names.join(", ")
+}
 
 function test_shuffle() {
-    let deck:Deck.Deck = {
-        cards: Card.from_names("abc".split(""))
-    }
+    let cards = options_from_names("abc".split(""));
     trial (
         "Card shuffle",
         1000000,
-        () => Deck.shuffle(deck),
-        (deck: Deck.ShuffledDeck) => Deck.as_string(deck)
+        () => shuffled_deck(cards),
+        (deck) => as_string(deck)
     )
 }
 
 function test_pick() {
-    let deck:Deck.Deck = {
-        cards: Card.from_names("abc".split(""))
-    }
+    let table = new_table(options_from_names("abc".split("")));
     trial (
         "Pick a card",
         1000000,
-        () => Deck.pick(deck),
-        (card: Card.Card) => card.name
+        () => pick(table),
+        (result: [Option, Oracle]) => result[0].name
     )
 }
 
