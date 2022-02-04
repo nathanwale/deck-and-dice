@@ -1,28 +1,39 @@
-import { Oracle, Option, pick, options_from_names, shuffled_deck, new_table } from './models/Oracle'
+import * as Oracle from './models/Oracle'
 
-function as_string(deck: Oracle): string
+function as_string(deck: Oracle.Oracle): string
 {
     let names = deck.options.map((card) => card.name);
     return names.join(", ")
 }
 
 function test_shuffle() {
-    let cards = options_from_names("abc".split(""));
+    let cards = Oracle.options_from_names("abc".split(""));
     trial (
         "Card shuffle",
         1000000,
-        () => shuffled_deck(cards),
+        () => Oracle.shuffled_deck(cards),
         (deck) => as_string(deck)
     )
 }
 
 function test_pick() {
-    let table = new_table(options_from_names("abc".split("")));
+    let table = Oracle.table_from_options(Oracle.options_from_names("abc".split("")));
     trial (
         "Pick a card",
         1000000,
-        () => pick(table),
-        (result: [Option, Oracle]) => result[0].name
+        () => Oracle.pick(table),
+        (result: [Oracle.Option, Oracle.Oracle]) => result[0].name
+    )
+}
+
+function test_dice() 
+{
+    let die = Oracle.die_from_range(17, 28);
+    trial (
+        "Roll dice (17, 28)",
+        1000000,
+        () => Oracle.pick(die),
+        (result: [Oracle.Option, Oracle.Oracle]) => (result[0].value === undefined) ? "undefined" : result[0].value.toString()
     )
 }
 
@@ -49,3 +60,4 @@ function trial(description: string, times: number, randfn: () => any, keyfn: (a:
 
 test_shuffle()
 test_pick()
+test_dice()
