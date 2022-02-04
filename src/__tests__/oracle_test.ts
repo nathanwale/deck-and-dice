@@ -71,5 +71,7 @@ test('dice', () => {
     ]
     expect(die.style).toEqual(Oracle.Style.Die);
     expect(die.options).toEqual(expected_options);
-    expect(Oracle.pick(die)[0].value in [1, 2, 3, 4, 5, 6]).toEqual(true);
+    let roll = Oracle.pick(die)[0].value
+    // console.log(`Rolled ${roll}`)
+    expect([1, 2, 3, 4, 5, 6].includes(roll)).toEqual(true);
 });
