@@ -132,8 +132,9 @@ export function is_exhausted(deck: Oracle): boolean
 /*
 ** Summarise a result
 */
-// export function summarise(result: Result): string
-// {
-//     let [option, oracle] = result;
-//     return `${oracle.}`
-// }
+export function summarise(result: Result): string
+{
+    let [option, oracle] = result;
+    let option_text = (option.value == undefined) ? option.name : option.value;
+    return `${oracle.name}: ${option.name}`
+}

@@ -1,5 +1,6 @@
 import 'jest';
 import * as Oracle from '../models/Oracle';
+import { pick } from '../random';
 
 test('Shuffled Deck initiated properly', () => {
     let cards = Oracle.options_from_names(["a", "b", "c"]);
@@ -74,4 +75,16 @@ test('dice', () => {
     let roll = Oracle.pick(die)[0].value
     // console.log(`Rolled ${roll}`)
     expect([1, 2, 3, 4, 5, 6].includes(roll)).toEqual(true);
+});
+
+test('oracle summaries', () => {
+    let options = Oracle.options_from_names(["a"])
+    let opt_a = options[0];
+    let deck = Oracle.shuffled_deck("Test deck", options);
+    let table = Oracle.table_from_options("Test table", options);
+    let die = Oracle.die_from_range("Test die", 1,1);
+
+    expect(Oracle.summarise(Oracle.pick(deck))).toEqual("Test deck: a");
+    expect(Oracle.summarise(Oracle.pick(table))).toEqual("Test table: a");
+    expect(Oracle.summarise(Oracle.pick(die))).toEqual("Test die: 1");
 });
