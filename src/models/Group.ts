@@ -1,31 +1,28 @@
-import { Deck, ShuffledDeck, deal, pick } from './Deck'
-import { Card } from './Card'
+import * as Oracle from './Oracle'
 import { Rect } from './Geometry'
 
-
-
-
-
-export type Groupable = Deck | ShuffledDeck;
-
-export type Summary = Card[];
-export type Result = [Card, Groupable]
-
 export type Group = {
-    // summary: Summary,
     title: string,
-    items: Groupable[],
+    oracles: Oracle.Oracle[],
     frame: Rect,
 }
 
-// export function runall(group: Group): Result[] {
-//     return group.items.map((item) => {
-//         if ("index" in item) {
-//             let deck = deal(item);
-//             return [];
-//         } else {
-//             return pick(item);
-//         }
-//     })
-// }
+export function pickall(group: Group): Oracle.Result[] {
+    return group.oracles.map((item) => {
+        return Oracle.pick(item);
+    })
+}
+
+export function values(results: Oracle.Result[]): number[]
+{
+    return results
+        .map((r: Oracle.Result) => r[0].value)
+        .filter((v) => v != undefined);
+}
+
+export function sum(results: Oracle.Result[]): number
+{
+    return values(results)
+        .reduce((acc, n) => acc + n);
+}
 
