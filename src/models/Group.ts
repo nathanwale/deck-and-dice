@@ -26,3 +26,9 @@ export function sum(results: Oracle.Result[]): number
         .reduce((acc, n) => acc + n);
 }
 
+export function summarise(results: Oracle.Result[]): string
+{
+    return results
+            .map(Oracle.summarise)
+            .join(", ");
+}

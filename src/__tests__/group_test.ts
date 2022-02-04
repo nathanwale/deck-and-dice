@@ -7,6 +7,30 @@ function quickopts (text: string) {
     return Oracle.options_from_names(text.split(""))
 }
 
+function test_group() 
+{
+    let shuffled_deck: Oracle.Oracle = {
+        index: 0,
+        options: quickopts("ABCD"),
+        style: Oracle.Style.Cards,
+        name: "Test deck",
+    }
+
+    let table = Oracle.table_from_options("Test table", quickopts("WXYZ"))
+    let die = Oracle.die_from_range("Test die", 1, 6);
+
+    let group: Group.Group = {
+        title: "Test Group",
+        oracles: [table, shuffled_deck, die],
+        frame: { 
+            origin: {x: 2, y: 3},
+            end: {x: 12, y: 13},
+         }
+    };
+    
+    return group;
+}
+
 test('Group basics', () => {
     let shuffled_deck: Oracle.Oracle = {
         index: 0,
@@ -62,4 +86,29 @@ test('run all', () => {
     expect(Group.sum(results)).toBeLessThanOrEqual(6);
     expect([1, 2, 3, 4, 5, 6].includes(Group.sum(results))).toEqual(true);
 });
+
+test('should first', () => {
+    let shuffled_deck: Oracle.Oracle = {
+        index: 0,
+        options: quickopts("A"),
+        style: Oracle.Style.Cards,
+        name: "Test deck",
+    }
+
+    let table = Oracle.table_from_options("Test table", quickopts("B"))
+    let die = Oracle.die_from_range("Test die", 1, 1);
+
+    let group: Group.Group = {
+        title: "Test Group",
+        oracles: [table, shuffled_deck, die],
+        frame: { 
+            origin: {x: 2, y: 3},
+            end: {x: 12, y: 13},
+         }
+    };
+    let results = Group.pickall(group);
+    let summary = Group.summarise(results);
+    expect(summary).toEqual("Test table: B, Test deck: A, Test die: 1");
+});
+
 
