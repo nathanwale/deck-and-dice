@@ -57,3 +57,18 @@ test('ShuffledDeck dealing cards', () => {
     expect(Oracle.undealt_cards(next_deck)).toEqual([]);
     expect(Oracle.is_exhausted(next_deck)).toEqual(true);
 })
+
+test('dice', () => {
+    let die = Oracle.die_from_range(1, 6);
+    let expected_options: Oracle.Option[] = [
+        { name: "1", value: 1 },
+        { name: "2", value: 2 },
+        { name: "3", value: 3 },
+        { name: "4", value: 4 },
+        { name: "5", value: 5 },
+        { name: "6", value: 6 },
+    ]
+    expect(die.style).toEqual(Oracle.Style.Die);
+    expect(die.options).toEqual(expected_options);
+    expect(Oracle.pick(die)[0].value in [1, 2, 3, 4, 5, 6]).toEqual(true);
+});
