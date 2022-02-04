@@ -11,10 +11,11 @@ test('Group basics', () => {
     let shuffled_deck: Oracle.Oracle = {
         index: 0,
         options: quickopts("ABCD"),
-        style: Oracle.Style.Cards
+        style: Oracle.Style.Cards,
+        name: "Test deck"
     }
 
-    let table = Oracle.table_from_options(quickopts("WXYZ"))
+    let table = Oracle.table_from_options("Test table", quickopts("WXYZ"))
 
     let group: Group.Group = {
         title: "Test Group",
@@ -35,11 +36,12 @@ test('run all', () => {
     let shuffled_deck: Oracle.Oracle = {
         index: 0,
         options: quickopts("ABCD"),
-        style: Oracle.Style.Cards
+        style: Oracle.Style.Cards,
+        name: "Test deck",
     }
 
-    let table = Oracle.table_from_options(quickopts("WXYZ"))
-    let die = Oracle.die_from_range(1, 6);
+    let table = Oracle.table_from_options("Test table", quickopts("WXYZ"))
+    let die = Oracle.die_from_range("Test die", 1, 6);
 
     let group: Group.Group = {
         title: "Test Group",

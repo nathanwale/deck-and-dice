@@ -15,6 +15,7 @@ export type Oracle = {
     style: Style,
     options: Option[],
     index: number,
+    name: string,
 }
 
 export type Result = [Option | null, Oracle];
@@ -27,16 +28,17 @@ export function options_from_names(names: string[]): Option[] {
     })
 }
 
-export function table_from_options(options: Option[]): Oracle
+export function table_from_options(name: string, options: Option[]): Oracle
 {
     return {
         style: Style.Table,
         options: options,
         index: 0,
+        name: name,
     }
 }
 
-export function die_from_range(start: number, end: number): Oracle
+export function die_from_range(name: string, start: number, end: number): Oracle
 {
     let range: number[] = [];
     for (let i = start; i <= end; i++) {
@@ -47,21 +49,23 @@ export function die_from_range(start: number, end: number): Oracle
         (n: number) => {
             return { name: n.toString(), value: n }
         });
-        
+
     return {
         style: Style.Die,
         index: 0,
         options: options,
+        name: name,
     }
 }
 
-export function shuffled_deck(options: Option[]): Oracle 
+export function shuffled_deck(name: string, options: Option[]): Oracle 
 {
     let shuffled_options = random.shuffle(options);
     return {
         style: Style.Cards,
         options: shuffled_options,
         index: 0,
+        name: name,
     }
 }
 
@@ -77,7 +81,8 @@ export function next_shuffled(deck: Oracle): Result
         {
             index: index,
             options: deck.options,
-            style: deck.style
+            style: deck.style,
+            name: deck.name
         }
     ]
 }
@@ -123,3 +128,12 @@ export function is_exhausted(deck: Oracle): boolean
     let { options, index } = deck;
     return (index >= options.length)
 }
+
+/*
+** Summarise a result
+*/
+// export function summarise(result: Result): string
+// {
+//     let [option, oracle] = result;
+//     return `${oracle.}`
+// }

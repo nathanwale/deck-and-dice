@@ -11,13 +11,13 @@ function test_shuffle() {
     trial (
         "Card shuffle",
         1000000,
-        () => Oracle.shuffled_deck(cards),
+        () => Oracle.shuffled_deck("", cards),
         (deck) => as_string(deck)
     )
 }
 
 function test_pick() {
-    let table = Oracle.table_from_options(Oracle.options_from_names("abc".split("")));
+    let table = Oracle.table_from_options("", Oracle.options_from_names("abc".split("")));
     trial (
         "Pick a card",
         1000000,
@@ -28,7 +28,7 @@ function test_pick() {
 
 function test_dice() 
 {
-    let die = Oracle.die_from_range(17, 28);
+    let die = Oracle.die_from_range("", 17, 28);
     trial (
         "Roll dice (17, 28)",
         1000000,

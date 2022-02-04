@@ -4,7 +4,7 @@ import * as Oracle from '../models/Oracle';
 test('Shuffled Deck initiated properly', () => {
     let cards = Oracle.options_from_names(["a", "b", "c"]);
     let a, b, c = cards;
-    let deck = Oracle.shuffled_deck(cards);
+    let deck = Oracle.shuffled_deck("Test deck", cards);
     expect(new Set(deck.options)).toEqual(new Set(cards));
     expect(deck.index).toEqual(0);
     expect(deck.style).toEqual(Oracle.Style.Cards);
@@ -16,7 +16,8 @@ test('ShuffledDeck dealing cards', () => {
     let deck: Oracle.Oracle = { 
         style: Oracle.Style.Cards,
         options: cards, 
-        index: 0, 
+        index: 0,
+        name: "Test deck"
     };
 
     // initial
@@ -59,7 +60,7 @@ test('ShuffledDeck dealing cards', () => {
 })
 
 test('dice', () => {
-    let die = Oracle.die_from_range(1, 6);
+    let die = Oracle.die_from_range("Test die", 1, 6);
     let expected_options: Oracle.Option[] = [
         { name: "1", value: 1 },
         { name: "2", value: 2 },
