@@ -17,6 +17,8 @@ export type Oracle = {
     index: number,
 }
 
+export type Result = [Option | null, Oracle];
+
 export function options_from_names(names: string[]): Option[] {
     return names.map((name) => {
         return {
@@ -25,12 +27,31 @@ export function options_from_names(names: string[]): Option[] {
     })
 }
 
-export function new_table(options: Option[]): Oracle
+export function table_from_options(options: Option[]): Oracle
 {
     return {
         style: Style.Table,
         options: options,
         index: 0,
+    }
+}
+
+export function die_from_range(start: number, end: number): Oracle
+{
+    let range: number[] = [];
+    for (let i = start; i <= end; i++) {
+        range.push(i);
+    }
+
+    let options: Option[] = range.map(
+        (n: number) => {
+            return { name: n.toString(), value: n }
+        });
+        
+    return {
+        style: Style.Die,
+        index: 0,
+        options: options,
     }
 }
 
@@ -44,7 +65,7 @@ export function shuffled_deck(options: Option[]): Oracle
     }
 }
 
-export function next_shuffled(deck: Oracle): [Option | null, Oracle]
+export function next_shuffled(deck: Oracle): Result
 {
     let index = deck.index;
     let card = (index < deck.options.length) ? deck.options[index] : null
@@ -61,12 +82,12 @@ export function next_shuffled(deck: Oracle): [Option | null, Oracle]
     ]
 }
 
-export function random_pick(oracle: Oracle): [Option, Oracle]
+export function random_pick(oracle: Oracle): Result
 {
     return [random.pick(oracle.options), oracle];
 }
 
-export function pick(oracle: Oracle): [Option | null, Oracle]
+export function pick(oracle: Oracle): Result
 {
     switch (oracle.style) {
         case Style.Cards:
