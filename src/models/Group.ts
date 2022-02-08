@@ -7,28 +7,27 @@ export type Group = {
     frame: Rect,
 }
 
-export function pickall(group: Group): Oracle.Result[] {
-    return group.oracles.map((item) => {
-        return Oracle.pick(item);
-    })
+export function pickall(group: Group): Oracle.Option[] {
+    return group.oracles.map(item => Oracle.pick(item));
 }
 
-export function values(results: Oracle.Result[]): number[]
+export function values(results: Oracle.Option[]): number[]
 {
-    return results
-        .map((r: Oracle.Result) => r[0].value)
-        .filter((v) => v != undefined);
+    let all_values = results.map(o => o.value);
+    let numbers_only: number[] = all_values.filter((v): v is number => !!v);
+    return numbers_only
+        
 }
 
-export function sum(results: Oracle.Result[]): number
+export function sum(results: Oracle.Option[]): number
 {
     return values(results)
         .reduce((acc, n) => acc + n);
 }
 
-export function summarise(results: Oracle.Result[]): string
+export function summarise(results: [Oracle.Option, Oracle.Oracle][]): string
 {
     return results
-            .map(Oracle.summarise)
+            .map(result => Oracle.summarise(result[0], result[1]))
             .join(", ");
 }

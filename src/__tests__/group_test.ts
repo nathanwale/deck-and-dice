@@ -76,12 +76,12 @@ test('run all', () => {
          }
     };
 
-    let results: Oracle.Result[] = Group.pickall(group)
+    let results: Oracle.Option[] = Group.pickall(group)
     expect(results.length).toEqual(3)
-    let [[table_result, _table2], [card, _deck], [die_roll, _die]] = results;
-    expect("WXYZ".includes(table_result.name)).toEqual(true);
-    expect("ABCD".includes(card.name)).toEqual(true);
-    expect([1, 2, 3, 4, 5, 6].includes(die_roll.value)).toEqual(true);
+    let [table_result, card, die_roll] = results;
+    expect("WXYZ".includes(table_result?.name!)).toEqual(true);
+    expect("ABCD".includes(card?.name!)).toEqual(true);
+    expect([1, 2, 3, 4, 5, 6].includes(die_roll?.value!)).toEqual(true);
     expect(Group.sum(results)).toBeGreaterThanOrEqual(1);
     expect(Group.sum(results)).toBeLessThanOrEqual(6);
     expect([1, 2, 3, 4, 5, 6].includes(Group.sum(results))).toEqual(true);
@@ -107,7 +107,11 @@ test('should first', () => {
          }
     };
     let results = Group.pickall(group);
-    let summary = Group.summarise(results);
+    let results_with_oracles:[Oracle.Option, Oracle.Oracle][] = [];
+    for (let i = 0; i < results.length; i++) {
+        results_with_oracles.push([results[i], group.oracles[i]]);
+    }
+    let summary = Group.summarise(results_with_oracles);
     expect(summary).toEqual("Test table: B, Test deck: A, Test die: 1");
 });
 

@@ -53,7 +53,7 @@ test('ShuffledDeck dealing cards', () => {
 
     // deal 4
     [next_card, next_deck] = Oracle.next_shuffled(next_deck);
-    expect(next_card).toEqual(null);
+    expect(next_card).toEqual(c);
     expect(next_deck.index).toEqual(3);
     expect(Oracle.dealt_cards(next_deck)).toEqual([a, b, c]);
     expect(Oracle.undealt_cards(next_deck)).toEqual([]);
@@ -72,9 +72,9 @@ test('dice', () => {
     ]
     expect(die.style).toEqual(Oracle.Style.Die);
     expect(die.options).toEqual(expected_options);
-    let roll = Oracle.pick(die)[0].value
+    let roll = Oracle.pick(die).value
     // console.log(`Rolled ${roll}`)
-    expect([1, 2, 3, 4, 5, 6].includes(roll)).toEqual(true);
+    expect([1, 2, 3, 4, 5, 6].includes(roll!)).toEqual(true);
 });
 
 test('oracle summaries', () => {
@@ -84,7 +84,7 @@ test('oracle summaries', () => {
     let table = Oracle.table_from_options("Test table", options);
     let die = Oracle.die_from_range("Test die", 1,1);
 
-    expect(Oracle.summarise(Oracle.pick(deck))).toEqual("Test deck: a");
-    expect(Oracle.summarise(Oracle.pick(table))).toEqual("Test table: a");
-    expect(Oracle.summarise(Oracle.pick(die))).toEqual("Test die: 1");
+    expect(Oracle.summarise(Oracle.pick(deck), deck)).toEqual("Test deck: a");
+    expect(Oracle.summarise(Oracle.pick(table), table)).toEqual("Test table: a");
+    expect(Oracle.summarise(Oracle.pick(die), die)).toEqual("Test die: 1");
 });

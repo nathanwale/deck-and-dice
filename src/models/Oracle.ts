@@ -1,9 +1,9 @@
 import * as random from '../random'
 
 export enum Style {
-    Table,
-    Cards,
-    Die
+    Table = "table",
+    Cards = "deck",
+    Die = "die"
 }
 
 export type Option = {
@@ -17,8 +17,6 @@ export type Oracle = {
     index: number,
     name: string,
 }
-
-export type Result = [Option | null, Oracle];
 
 export function options_from_names(names: string[]): Option[] {
     return names.map((name) => {
@@ -36,6 +34,11 @@ export function table_from_options(name: string, options: Option[]): Oracle
         index: 0,
         name: name,
     }
+}
+
+export function die_with_sides(name: string, sides: number)
+{
+    return die_from_range(name, 1, sides);
 }
 
 export function die_from_range(name: string, start: number, end: number): Oracle
@@ -69,37 +72,27 @@ export function shuffled_deck(name: string, options: Option[]): Oracle
     }
 }
 
-export function next_shuffled(deck: Oracle): Result
+export function next_shuffled(deck: Oracle): [Option, Oracle]
 {
     let index = deck.index;
-    let card = (index < deck.options.length) ? deck.options[index] : null
+    let card: Option;
     if (index < deck.options.length) {
-        index++;
+        deck.index++;
+        card = deck.options[index];
+    } else {
+        card = deck.options[deck.options.length-1];
     }
-    return [
-        card,
-        {
-            index: index,
-            options: deck.options,
-            style: deck.style,
-            name: deck.name
-        }
-    ]
+    return [card, deck];
 }
 
-export function random_pick(oracle: Oracle): Result
+export function random_pick(oracle: Oracle): Option
 {
-    return [random.pick(oracle.options), oracle];
+    return random.pick(oracle.options);
 }
 
-export function pick(oracle: Oracle): Result
+export function pick(oracle: Oracle): Option
 {
-    switch (oracle.style) {
-        case Style.Cards:
-            return next_shuffled(oracle);
-        default:
-            return random_pick(oracle);
-    }
+    return random_pick(oracle);
 }
 
 /*
@@ -132,9 +125,7 @@ export function is_exhausted(deck: Oracle): boolean
 /*
 ** Summarise a result
 */
-export function summarise(result: Result): string
+export function summarise(option: Option, oracle: Oracle): string
 {
-    let [option, oracle] = result;
-    let option_text = (option.value == undefined) ? option.name : option.value;
-    return `${oracle.name}: ${option.name}`
+    return `${oracle.name}: ${option?.name}`
 }
