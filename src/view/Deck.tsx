@@ -1,9 +1,24 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
 import * as Oracle from '../models/Oracle'
+import {OracleMap, OracleKey, Action, ActionType} from './ViewModel'
 
 type Props = { 
-  deck: Oracle.Oracle
+  deck: Oracle.Oracle,
+  latest: Oracle.Option,
+  dispatcher: () => void,
+}
+
+export function create(map: OracleMap, key: OracleKey, dispatcher: React.Dispatch<Action>): JSX.Element
+{
+    let {oracle, result} = map.get(key)!;
+    let action = {
+        type: ActionType.PickOne, 
+        value: key
+    }
+    return <ShuffledDeck 
+                deck={oracle} latest={result} key={key} 
+                dispatcher={() => dispatcher(action)}/>
 }
 
 function DiscardPile(props: { card: Oracle.Option | null })
@@ -17,38 +32,24 @@ function DiscardPile(props: { card: Oracle.Option | null })
   )
 }
 
-function UndealtDeck(props: { deck: Oracle.Oracle, deal: ()=>void })
+function UndealtDeck(props: { deck: Oracle.Oracle, dispatcher: ()=>void })
 {
   let is_exhausted = Oracle.is_exhausted(props.deck);
   let class_name = is_exhausted ? "undealt-none" : "undealt";
   let content = is_exhausted ? "" : "?";
   return (
-    <button onClick={ props.deal } className={ class_name }>
-      { content }
+    <button onClick={ props.dispatcher } className={ class_name }>
+        { content }
     </button>
   )
 }
 
 export function ShuffledDeck(props: Props)
 {
-    let [deck, setDeck] = useState(props.deck);
-    let [card, setCard] = useState<Oracle.Option | null>(null);
-    function deal()
-    {
-        if (!Oracle.is_exhausted(deck)) {
-            let [new_card, new_deck] = Oracle.next_shuffled(deck);
-            // console.log(`Deal: ${new_card?.name} from ${new_deck.name} (index: ${new_deck.index})`)
-            setCard(new_card);
-            setDeck(new_deck); 
-        } 
-    }
-
     return (
         <div className="deck subgroup">
-            <UndealtDeck 
-            deck={ deck}
-            deal={ deal } />
-            <DiscardPile card={ card } />
+            <UndealtDeck deck={ props.deck} dispatcher={ props.dispatcher } />
+            <DiscardPile card={ props.latest } />
         </div>
     )
 }
