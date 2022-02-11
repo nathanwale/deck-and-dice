@@ -3,19 +3,17 @@ import './App.css';
 import * as Oracle from '../models/Oracle'
 
 type Props = { 
-  die: Oracle.Oracle
+    die: Oracle.Oracle,
+    result: Oracle.Option,
+    updater: () => void,
 }
 
 export function Die(props:Props)
 {
-    let [roll, set_roll] = useState(Oracle.pick(props.die).value);
-    function roll_die() {
-        set_roll(Oracle.pick(props.die).value)
-    }
     return (
         <div className='subgroup die'>
-            <button onClick={ roll_die }>
-                { roll }
+            <button onClick={ props.updater }>
+                { props.result.value! }
             </button>
         </div>
     )
