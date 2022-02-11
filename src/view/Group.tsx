@@ -5,6 +5,7 @@ import * as Oracle from '../models/Oracle'
 import * as OracleGroup from '../models/Group'
 import * as ShuffledDeck from './Deck'
 import * as Die from './Die'
+import * as Table from './Table'
 import {OracleMap, OracleKey, OracleResult, Action, ActionType, State, reducer} from './ViewModel'
 
 type Props = { 
@@ -34,7 +35,7 @@ function view_from_oracle_style(map: OracleMap, key: OracleKey, dispatcher: Reac
         case Oracle.Style.Die:
             return Die.create(map, key, dispatcher);
         case Oracle.Style.Table:
-            return <div key={key}>{oracle.name}</div>
+            return Table.create(map, key, dispatcher);
     }
 }
 

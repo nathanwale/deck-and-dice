@@ -70,6 +70,11 @@ body {
   margin: 0.5em;
 }
 
+.table button {
+  height: 3em;
+  margin: 0.5em;
+}
+
 .pickall {
   width: 3em;
   height: 3em;

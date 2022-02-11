@@ -10,6 +10,7 @@ let oracles = [
   Oracle.die_with_sides("Challenge", 8),
   Oracle.die_with_sides("Action", 6),
   Oracle.die_with_sides("Challenge", 8),
+  Oracle.table_from_options("", Oracle.options_from_names(["Scheme", "Falter", "Advance", "Destroy", "Avoid", "Reveal"])),
 ]
 
 let group: OracleGroup.Group = {
