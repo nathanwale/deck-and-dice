@@ -1,0 +1,45 @@
+$darkest: #333;
+$dark: #555;
+$mid: #ccc;
+$light: ddd;
+$lightest: white;
+
+%button {
+    border-radius: 0.5em;
+}
+
+%button:hover {
+    cursor: pointer;
+}
+
+%circular {
+    border-radius: 100%;
+}
+
+%dark-button {
+    @extend %button;
+    background-color: $darkest;
+    color: $lightest;
+    border: 1px solid $lightest;
+}
+
+%dark-button:hover {
+    background-color: $dark;
+}
+
+%light-button {
+    @extend %button;
+    background-color: $light;
+    color: $darkest;
+    border: 1px solid $dark;
+}
+
+%light-button:hover {
+    background-color: $mid;
+}
+
+%empty-button {
+    @extend %button;
+    background-color: transparent;
+    border-style: dashed;
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './App.css';
+import './style/App.scss';
 import * as Oracle from '../models/Oracle'
 import * as OracleGroup from '../models/Group'
 import { Group } from './Group';

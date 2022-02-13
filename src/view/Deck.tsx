@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import * as Oracle from '../models/Oracle'
 import {OracleMap, OracleKey, Action, ActionType} from './ViewModel'
 

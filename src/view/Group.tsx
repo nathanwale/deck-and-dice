@@ -1,6 +1,4 @@
 import React from 'react';
-
-import './App.css';
 import * as Oracle from '../models/Oracle'
 import * as OracleGroup from '../models/Group'
 import * as ShuffledDeck from './Deck'
