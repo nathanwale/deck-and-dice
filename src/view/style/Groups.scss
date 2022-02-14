@@ -3,73 +3,70 @@
     grid-template-columns: auto 1fr;
     display: grid;
     grid-template-areas:
-      "items pickall"
-      "summary x";
-  }
-  
-.group {
-  .group-items {
-    grid-area: "items";
-    display: flex;
-    border: 1px solid #ccc;
-    border-radius: 1em;
-    padding: 0;
-    width: fit-content;
-    background-color: white;
-  }
-  
-  .subgroup {
-    border-left: 1px solid #ddd;
-    padding: 0.5em;
-  }
-  
-  .subgroup:first-child {
-    border-left: none;
-  }
-  
-  .deck {
-    display: flex;
-    gap: 0.5em;
-  }
-  
-  .deck button {
-    @extend %light-button;
-    width: 3em;
-    height: 4em;
-  }
-  
-  .deck .undealt {
-    @extend %dark-button;
-  }
-  
-  
-  .deck .undealt-none,
-  .deck .card-space {
-    @extend %empty-button;
-  }
-  
-  .die button {
-    @extend %light-button;
-    width: 3em;
-    height: 3em;
-    margin: 0.5em;
-  }
-  
-  .table button {
-    height: 3em;
-    margin: 0.5em;
-  }
-  
-  .pickall {
-    @extend %circular;
-    @extend %dark-button;
-    width: 3em;
-    height: 3em;
-    margin: 0.5em;
-    grid-area: "pickall";
-  }
-  
-  .summary {
-    grid-area: "summary";
-  }
+        "items pickall"
+        "summary x";
+
+    .group-items {
+        grid-area: items;
+        display: flex;
+        border: 1px solid #ccc;
+        border-radius: 1em;
+        padding: 0;
+        width: fit-content;
+        background-color: white;
+    }
+
+    .subgroup {
+        border-left: 1px solid #ddd;
+        padding: 0.5em;
+    }
+
+    .subgroup:first-child {
+        border-left: none;
+    }
+
+    .deck {
+        display: flex;
+        gap: 0.5em;
+
+        button {
+            @extend %light-button;
+            width: 3em;
+            height: 4em;
+        }
+
+        .undealt {
+            @extend %dark-button;
+        }
+
+        .undealt-none,
+        .card-space {
+            @extend %empty-button;
+        }
+    }
+
+    .die button {
+        @extend %light-button;
+        width: 3em;
+        height: 3em;
+        margin: 0.5em;
+    }
+
+    .table button {
+        height: 3em;
+        margin: 0.5em;
+    }
+
+    .pickall {
+        @extend %circular;
+        @extend %dark-button;
+        width: 3em;
+        height: 3em;
+        margin: 0.5em;
+        grid-area: pickall;
+    }
+
+    .summary {
+        grid-area: summary;
+    }
 }

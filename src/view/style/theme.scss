@@ -1,7 +1,7 @@
 $darkest: #333;
 $dark: #555;
 $mid: #ccc;
-$light: ddd;
+$light: #ddd;
 $lightest: white;
 
 %button {
@@ -42,4 +42,9 @@ $lightest: white;
     @extend %button;
     background-color: transparent;
     border-style: dashed;
+}
+
+%empty-button:hover {
+    background-color: transparent;
+    cursor: default;
 }
