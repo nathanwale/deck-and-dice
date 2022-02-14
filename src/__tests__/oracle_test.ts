@@ -12,8 +12,8 @@ test('Shuffled Deck initiated properly', () => {
 })
 
 test('ShuffledDeck dealing cards', () => {
-    let cards = Oracle.options_from_names(["a", "b", "c"])
-    let [a, b, c] = cards;
+    let cards = Oracle.options_from_names(["a", "b", "c", "d"])
+    let [a, b, c, d] = cards;
     let deck: Oracle.Oracle = { 
         style: Oracle.Style.Cards,
         options: cards, 
@@ -24,7 +24,7 @@ test('ShuffledDeck dealing cards', () => {
     // initial
     expect(deck.index).toEqual(0);
     expect(Oracle.dealt_cards(deck)).toEqual([]);
-    expect(Oracle.undealt_cards(deck)).toEqual([a, b, c]);
+    expect(Oracle.undealt_cards(deck)).toEqual([a, b, c, d]);
     expect(Oracle.is_exhausted(deck)).toEqual(false);
 
     // deal 1
@@ -32,7 +32,7 @@ test('ShuffledDeck dealing cards', () => {
     expect(next_card).toEqual(a);
     expect(next_deck.index).toEqual(1);
     expect(Oracle.dealt_cards(next_deck)).toEqual([a]);
-    expect(Oracle.undealt_cards(next_deck)).toEqual([b, c]);
+    expect(Oracle.undealt_cards(next_deck)).toEqual([b, c, d]);
     expect(Oracle.is_exhausted(next_deck)).toEqual(false);
 
     // deal 2
@@ -40,7 +40,7 @@ test('ShuffledDeck dealing cards', () => {
     expect(next_card).toEqual(b);
     expect(next_deck.index).toEqual(2);
     expect(Oracle.dealt_cards(next_deck)).toEqual([a, b]);
-    expect(Oracle.undealt_cards(next_deck)).toEqual([c]);
+    expect(Oracle.undealt_cards(next_deck)).toEqual([c, d]);
     expect(Oracle.is_exhausted(next_deck)).toEqual(false);
 
     // deal 3
@@ -48,14 +48,22 @@ test('ShuffledDeck dealing cards', () => {
     expect(next_card).toEqual(c);
     expect(next_deck.index).toEqual(3);
     expect(Oracle.dealt_cards(next_deck)).toEqual([a, b, c]);
-    expect(Oracle.undealt_cards(next_deck)).toEqual([]);
-    expect(Oracle.is_exhausted(next_deck)).toEqual(true);
+    expect(Oracle.undealt_cards(next_deck)).toEqual([d]);
+    expect(Oracle.is_exhausted(next_deck)).toEqual(false);
 
     // deal 4
     [next_card, next_deck] = Oracle.next_shuffled(next_deck);
-    expect(next_card).toEqual(c);
-    expect(next_deck.index).toEqual(3);
-    expect(Oracle.dealt_cards(next_deck)).toEqual([a, b, c]);
+    expect(next_card).toEqual(d);
+    expect(next_deck.index).toEqual(4);
+    expect(Oracle.dealt_cards(next_deck)).toEqual([a, b, c, d]);
+    expect(Oracle.undealt_cards(next_deck)).toEqual([]);
+    expect(Oracle.is_exhausted(next_deck)).toEqual(true);
+
+    // deal 5
+    [next_card, next_deck] = Oracle.next_shuffled(next_deck);
+    expect(next_card).toEqual(d);
+    expect(next_deck.index).toEqual(4);
+    expect(Oracle.dealt_cards(next_deck)).toEqual([a, b, c, d]);
     expect(Oracle.undealt_cards(next_deck)).toEqual([]);
     expect(Oracle.is_exhausted(next_deck)).toEqual(true);
 })
