@@ -13,8 +13,7 @@ export type Option = {
 
 export type Oracle = {
     style: Style,
-    options: Option[],
-    index: number,
+    options: Option[]
     name: string,
 }
 
@@ -31,7 +30,6 @@ export function table_from_options(name: string, options: Option[]): Oracle
     return {
         style: Style.Table,
         options: options,
-        index: 0,
         name: name,
     }
 }
@@ -55,7 +53,6 @@ export function die_from_range(name: string, start: number, end: number): Oracle
 
     return {
         style: Style.Die,
-        index: 0,
         options: options,
         name: name,
     }
@@ -67,22 +64,21 @@ export function shuffled_deck(name: string, options: Option[]): Oracle
     return {
         style: Style.Cards,
         options: shuffled_options,
-        index: 0,
         name: name,
     }
 }
 
-export function next_shuffled(deck: Oracle): [Option, Oracle]
+export function next(deck: Oracle, index: number): [Option, number]
 {
-    let index = deck.index;
     let card: Option;
     if (index < deck.options.length) {
-        deck.index++;
         card = deck.options[index];
+        index++;
     } else {
         card = deck.options[deck.options.length-1];
     }
-    return [card, deck];
+    console.log(`${index}/${deck.options.length}: ${card.name}`)
+    return [card, index];
 }
 
 export function random_pick(oracle: Oracle): Option
@@ -98,28 +94,25 @@ export function pick(oracle: Oracle): Option
 /*
 ** Cards that haven't been dealt yet
 */
-export function undealt_cards(deck: Oracle): Option[]
+export function undealt_cards(deck: Oracle, index: number): Option[]
 {
-    let { options, index } = deck;
-    return options.slice(index)
+    return deck.options.slice(index)
 }
 
 /*
 ** Cards that have been dealt already
 */
-export function dealt_cards(deck: Oracle): Option[]
+export function dealt_cards(deck: Oracle, index: number): Option[]
 {
-    let { options, index } = deck;
-    return options.slice(0, index)
+    return deck.options.slice(0, index)
 }
 
 /*
 ** Has deck finished dealing?
 */
-export function is_exhausted(deck: Oracle): boolean
+export function is_exhausted(deck: Oracle, index: number): boolean
 {
-    let { options, index } = deck;
-    return (index >= options.length)
+    return (index >= deck.options.length)
 }
 
 /*

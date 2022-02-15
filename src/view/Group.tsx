@@ -4,57 +4,61 @@ import * as OracleGroup from '../models/Group'
 import * as ShuffledDeck from './Deck'
 import * as Die from './Die'
 import * as Table from './Table'
-import {OracleMap, OracleKey, OracleResult, Action, ActionType, State, reducer} from './ViewModel'
+import {OracleMap, OracleId, OracleResult, OracleDeck, Action, ActionType, State, reducer, sum_oracles} from './ViewModel'
 
 type Props = { 
     group: OracleGroup.Group
 }
 
-function build_oracle_map(oracles: Oracle.Oracle[]): OracleMap
+
+function build_oracle_map(oracles: Oracle.Oracle[]): State
 {
     let next_key = 0;
-    let oracle_map: OracleMap = new Map<number, OracleResult>()
-    for (const oracle of oracles) {
-        oracle_map.set(next_key, {
-            oracle: oracle,
-            result: Oracle.pick(oracle)
-        })
-        next_key++;
+    let oracle_map: OracleMap = oracles.map(
+        oracle => {
+            let result: OracleResult;
+            switch (oracle.style) {
+                case Oracle.Style.Cards:
+                    result = Oracle.next(oracle, 0);
+                    break;
+                default:
+                    result = Oracle.pick(oracle);
+            }
+            return [next_key++, oracle, result]
+        }
+    );
+    return {
+        oracle_map: oracle_map,
+        total: sum_oracles(oracle_map),
     }
-    return oracle_map;
 }
 
-function view_from_oracle_style(map: OracleMap, key: OracleKey, dispatcher: React.Dispatch<Action>): JSX.Element
+function view_from_oracle_style(oracle: Oracle.Oracle, result: OracleResult, id: OracleId, dispatcher: React.Dispatch<Action>): JSX.Element
 {
-    let {oracle, result} = map.get(key)!;
     switch (oracle.style) {
         case Oracle.Style.Cards:
-            return ShuffledDeck.create(map, key, dispatcher);
+            return ShuffledDeck.create(oracle, result as OracleDeck, id, dispatcher);
         case Oracle.Style.Die:
-            return Die.create(map, key, dispatcher);
+            return Die.create(oracle, result as Oracle.Option, id, dispatcher);
         case Oracle.Style.Table:
-            return Table.create(map, key, dispatcher);
+            return Table.create(oracle, result as Oracle.Option, id, dispatcher);
     }
 }
 
 function views_from_oracles(oracle_map: OracleMap, dispatcher: React.Dispatch<Action>): JSX.Element[]
 {
-    let views: JSX.Element[] = [];
-    for (const key of oracle_map.keys()) {
-        let view = view_from_oracle_style(oracle_map, key, dispatcher);
-        views.push(view);
-    }
-    return views;
+    return oracle_map.map(
+        entry => {
+            let [id, oracle, result] = entry;
+            return view_from_oracle_style(oracle, result, id, dispatcher);
+        }
+    );
 }
 
 
 export function Group(props: Props)
 {
-    let initial_state: State = {
-        oracle_map: build_oracle_map(props.group.oracles),
-        total: 0,
-    } 
-    let [state, dispatcher] = React.useReducer(reducer, initial_state);
+    let [state, dispatcher] = React.useReducer(reducer, props.group.oracles, build_oracle_map);
 
     return (
         <div className='group'>

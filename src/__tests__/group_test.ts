@@ -10,7 +10,6 @@ function quickopts (text: string) {
 function test_group() 
 {
     let shuffled_deck: Oracle.Oracle = {
-        index: 0,
         options: quickopts("ABCD"),
         style: Oracle.Style.Cards,
         name: "Test deck",
@@ -33,7 +32,6 @@ function test_group()
 
 test('Group basics', () => {
     let shuffled_deck: Oracle.Oracle = {
-        index: 0,
         options: quickopts("ABCD"),
         style: Oracle.Style.Cards,
         name: "Test deck"
@@ -58,7 +56,6 @@ test('Group basics', () => {
 
 test('run all', () => {
     let shuffled_deck: Oracle.Oracle = {
-        index: 0,
         options: quickopts("ABCD"),
         style: Oracle.Style.Cards,
         name: "Test deck",
@@ -89,7 +86,6 @@ test('run all', () => {
 
 test('should first', () => {
     let shuffled_deck: Oracle.Oracle = {
-        index: 0,
         options: quickopts("A"),
         style: Oracle.Style.Cards,
         name: "Test deck",

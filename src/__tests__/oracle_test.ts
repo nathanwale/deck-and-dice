@@ -7,7 +7,6 @@ test('Shuffled Deck initiated properly', () => {
     let a, b, c = cards;
     let deck = Oracle.shuffled_deck("Test deck", cards);
     expect(new Set(deck.options)).toEqual(new Set(cards));
-    expect(deck.index).toEqual(0);
     expect(deck.style).toEqual(Oracle.Style.Cards);
 })
 
@@ -16,56 +15,54 @@ test('ShuffledDeck dealing cards', () => {
     let [a, b, c, d] = cards;
     let deck: Oracle.Oracle = { 
         style: Oracle.Style.Cards,
-        options: cards, 
-        index: 0,
+        options: cards,
         name: "Test deck"
     };
 
     // initial
-    expect(deck.index).toEqual(0);
-    expect(Oracle.dealt_cards(deck)).toEqual([]);
-    expect(Oracle.undealt_cards(deck)).toEqual([a, b, c, d]);
-    expect(Oracle.is_exhausted(deck)).toEqual(false);
+    expect(Oracle.dealt_cards(deck, 0)).toEqual([]);
+    expect(Oracle.undealt_cards(deck, 0)).toEqual([a, b, c, d]);
+    expect(Oracle.is_exhausted(deck, 0)).toEqual(false);
 
     // deal 1
-    let [next_card, next_deck] = Oracle.next_shuffled(deck);
+    let [next_card, next_index] = Oracle.next(deck, 0);
     expect(next_card).toEqual(a);
-    expect(next_deck.index).toEqual(1);
-    expect(Oracle.dealt_cards(next_deck)).toEqual([a]);
-    expect(Oracle.undealt_cards(next_deck)).toEqual([b, c, d]);
-    expect(Oracle.is_exhausted(next_deck)).toEqual(false);
+    expect(next_index).toEqual(1);
+    expect(Oracle.dealt_cards(deck, next_index)).toEqual([a]);
+    expect(Oracle.undealt_cards(deck, next_index)).toEqual([b, c, d]);
+    expect(Oracle.is_exhausted(deck, next_index)).toEqual(false);
 
     // deal 2
-    [next_card, next_deck] = Oracle.next_shuffled(next_deck);
+    [next_card, next_index] = Oracle.next(deck, 1);
     expect(next_card).toEqual(b);
-    expect(next_deck.index).toEqual(2);
-    expect(Oracle.dealt_cards(next_deck)).toEqual([a, b]);
-    expect(Oracle.undealt_cards(next_deck)).toEqual([c, d]);
-    expect(Oracle.is_exhausted(next_deck)).toEqual(false);
+    expect(next_index).toEqual(2);
+    expect(Oracle.dealt_cards(deck, next_index)).toEqual([a, b]);
+    expect(Oracle.undealt_cards(deck, next_index)).toEqual([c, d]);
+    expect(Oracle.is_exhausted(deck, next_index)).toEqual(false);
 
     // deal 3
-    [next_card, next_deck] = Oracle.next_shuffled(next_deck);
+    [next_card, next_index] = Oracle.next(deck, 2);
     expect(next_card).toEqual(c);
-    expect(next_deck.index).toEqual(3);
-    expect(Oracle.dealt_cards(next_deck)).toEqual([a, b, c]);
-    expect(Oracle.undealt_cards(next_deck)).toEqual([d]);
-    expect(Oracle.is_exhausted(next_deck)).toEqual(false);
+    expect(next_index).toEqual(3);
+    expect(Oracle.dealt_cards(deck, next_index)).toEqual([a, b, c]);
+    expect(Oracle.undealt_cards(deck, next_index)).toEqual([d]);
+    expect(Oracle.is_exhausted(deck, next_index)).toEqual(false);
 
     // deal 4
-    [next_card, next_deck] = Oracle.next_shuffled(next_deck);
+    [next_card, next_index] = Oracle.next(deck, 3);
     expect(next_card).toEqual(d);
-    expect(next_deck.index).toEqual(4);
-    expect(Oracle.dealt_cards(next_deck)).toEqual([a, b, c, d]);
-    expect(Oracle.undealt_cards(next_deck)).toEqual([]);
-    expect(Oracle.is_exhausted(next_deck)).toEqual(true);
+    expect(next_index).toEqual(4);
+    expect(Oracle.dealt_cards(deck, next_index)).toEqual([a, b, c, d]);
+    expect(Oracle.undealt_cards(deck, next_index)).toEqual([]);
+    expect(Oracle.is_exhausted(deck, next_index)).toEqual(true);
 
     // deal 5
-    [next_card, next_deck] = Oracle.next_shuffled(next_deck);
+    [next_card, next_index] = Oracle.next(deck, 4);
     expect(next_card).toEqual(d);
-    expect(next_deck.index).toEqual(4);
-    expect(Oracle.dealt_cards(next_deck)).toEqual([a, b, c, d]);
-    expect(Oracle.undealt_cards(next_deck)).toEqual([]);
-    expect(Oracle.is_exhausted(next_deck)).toEqual(true);
+    expect(next_index).toEqual(4);
+    expect(Oracle.dealt_cards(deck, next_index)).toEqual([a, b, c, d]);
+    expect(Oracle.undealt_cards(deck, next_index)).toEqual([]);
+    expect(Oracle.is_exhausted(deck, next_index)).toEqual(true);
 })
 
 test('dice', () => {
