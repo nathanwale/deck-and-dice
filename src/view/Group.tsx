@@ -1,22 +1,24 @@
 import React from 'react';
+import * as OracleMap from '../models/OracleMap';
 import * as Oracle from '../models/Oracle'
 import * as OracleGroup from '../models/Group'
 import * as ShuffledDeck from './Deck'
 import * as Die from './Die'
 import * as Table from './Table'
-import {OracleMap, OracleId, OracleResult, OracleDeck, Action, ActionType, State, reducer, sum_oracles} from './ViewModel'
+
+import * as ViewModel from './ViewModel';
 
 type Props = { 
     group: OracleGroup.Group
 }
 
 
-function build_oracle_map(oracles: Oracle.Oracle[]): State
+function build_oracle_map(oracles: Oracle.Oracle[]): ViewModel.State
 {
     let next_key = 0;
-    let oracle_map: OracleMap = oracles.map(
+    let oracle_map: OracleMap.OracleMap = oracles.map(
         oracle => {
-            let result: OracleResult;
+            let result: OracleMap.OracleResult;
             switch (oracle.style) {
                 case Oracle.Style.Cards:
                     result = Oracle.next(oracle, 0);
@@ -29,15 +31,17 @@ function build_oracle_map(oracles: Oracle.Oracle[]): State
     );
     return {
         oracle_map: oracle_map,
-        total: sum_oracles(oracle_map),
+        total: OracleMap.sum_oracles(oracle_map),
     }
 }
 
-function view_from_oracle_style(oracle: Oracle.Oracle, result: OracleResult, id: OracleId, dispatcher: React.Dispatch<Action>): JSX.Element
+function view_from_oracle_style(
+    oracle: Oracle.Oracle, result: OracleMap.OracleResult, 
+    id: OracleMap.OracleId, dispatcher: React.Dispatch<ViewModel.Action>): JSX.Element
 {
     switch (oracle.style) {
         case Oracle.Style.Cards:
-            return ShuffledDeck.create(oracle, result as OracleDeck, id, dispatcher);
+            return ShuffledDeck.create(oracle, result as OracleMap.OracleDeck, id, dispatcher);
         case Oracle.Style.Die:
             return Die.create(oracle, result as Oracle.Option, id, dispatcher);
         case Oracle.Style.Table:
@@ -45,7 +49,9 @@ function view_from_oracle_style(oracle: Oracle.Oracle, result: OracleResult, id:
     }
 }
 
-function views_from_oracles(oracle_map: OracleMap, dispatcher: React.Dispatch<Action>): JSX.Element[]
+function views_from_oracles(
+    oracle_map: OracleMap.OracleMap, 
+    dispatcher: React.Dispatch<ViewModel.Action>): JSX.Element[]
 {
     return oracle_map.map(
         entry => {
@@ -58,7 +64,7 @@ function views_from_oracles(oracle_map: OracleMap, dispatcher: React.Dispatch<Ac
 
 export function Group(props: Props)
 {
-    let [state, dispatcher] = React.useReducer(reducer, props.group.oracles, build_oracle_map);
+    let [state, dispatcher] = React.useReducer(ViewModel.reducer, props.group.oracles, build_oracle_map);
 
     return (
         <div className='group'>
@@ -67,7 +73,7 @@ export function Group(props: Props)
             </div>
             <button 
                 className='pickall'
-                onClick={ () => dispatcher({type: ActionType.PickAll, value: state.oracle_map}) }>↺</button>
+                onClick={ () => dispatcher({type: ViewModel.ActionType.PickAll, value: state.oracle_map}) }>↺</button>
             <div className='total'>Total: {state.total}</div>
         </div>
     )

@@ -1,6 +1,7 @@
 import React from 'react';
 import * as Oracle from '../models/Oracle';
-import {OracleMap, OracleId, Action, ActionType} from './ViewModel'
+import * as OracleMap from '../models/OracleMap';
+import * as ViewModel from './ViewModel';
 
 type Props = { 
     die: Oracle.Oracle,
@@ -8,10 +9,12 @@ type Props = {
     dispatcher: () => void,
 }
 
-export function create(oracle: Oracle.Oracle, result: Oracle.Option, id: OracleId, dispatcher: React.Dispatch<Action>): JSX.Element
+export function create(
+    oracle: Oracle.Oracle, result: Oracle.Option, 
+    id: OracleMap.OracleId, dispatcher: React.Dispatch<ViewModel.Action>): JSX.Element
 {
     let action = {
-        type: ActionType.PickOne, 
+        type: ViewModel.ActionType.PickOne, 
         value: null,
         id: id,
     }

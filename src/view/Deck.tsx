@@ -1,16 +1,19 @@
 import React from 'react';
-import * as Oracle from '../models/Oracle'
-import {OracleDeck, OracleId, Action, ActionType} from './ViewModel'
+import * as Oracle from '../models/Oracle';
+import * as OracleMap from '../models/OracleMap';
+import * as ViewModel from './ViewModel';
 
 type Props = { 
-    id: OracleId,
+    id: OracleMap.OracleId,
     deck: Oracle.Oracle,
     latest: Oracle.Option,
     index: number,
-    dispatcher: React.Dispatch<Action>,
+    dispatcher: React.Dispatch<ViewModel.Action>,
 }
 
-export function create(oracle: Oracle.Oracle, result: OracleDeck, id: OracleId, dispatcher: React.Dispatch<Action>): JSX.Element
+export function create(
+    oracle: Oracle.Oracle, result: OracleMap.OracleDeck, 
+    id: OracleMap.OracleId, dispatcher: React.Dispatch<ViewModel.Action>): JSX.Element
 {
     let [card, card_index] = result;
     return <ShuffledDeck 
@@ -44,8 +47,8 @@ function UndealtDeck(props: { deck: Oracle.Oracle, index: number, dispatcher: ()
 
 export function ShuffledDeck(props: Props)
 {
-    let action: Action = {
-        type: ActionType.DealNext,
+    let action: ViewModel.Action = {
+    type: ViewModel.ActionType.DealNext,
         id: props.id,
         value: props.index,
     }
