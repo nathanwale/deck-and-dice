@@ -77,7 +77,7 @@ export function next(deck: Oracle, index: number): [Option, number]
     } else {
         card = deck.options[deck.options.length-1];
     }
-    console.log(`${index}/${deck.options.length}: ${card.name}`)
+    // console.log(`${index}/${deck.options.length}: ${card.name}`)
     return [card, index];
 }
 
