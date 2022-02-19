@@ -31,3 +31,12 @@ export function summarise(results: [Oracle.Option, Oracle.Oracle][]): string
             .map(result => Oracle.summarise(result[0], result[1]))
             .join(", ");
 }
+
+export function add_oracle(group: Group, oracle: Oracle.Oracle): Group
+{
+    return {
+        title: group.title,
+        frame: group.frame,
+        oracles: group.oracles.concat(oracle),
+    }
+}

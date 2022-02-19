@@ -111,4 +111,26 @@ test('should first', () => {
     expect(summary).toEqual("Test table: B, Test deck: A, Test die: 1");
 });
 
+test('adding oracles', () => {
+    let shuffled_deck: Oracle.Oracle = {
+        options: quickopts("A"),
+        style: Oracle.Style.Cards,
+        name: "Test deck",
+    }
 
+    let table = Oracle.table_from_options("Test table", quickopts("B"))
+    let die = Oracle.die_from_range("Test die", 1, 1);
+
+    let group: Group.Group = {
+        title: "Test Group",
+        oracles: [table, shuffled_deck],
+        frame: { 
+            origin: {x: 2, y: 3},
+            end: {x: 12, y: 13},
+         }
+    };
+    let new_group = Group.add_oracle(group, die);
+    expect(group.oracles).toEqual([table, shuffled_deck]);
+    expect(new_group.oracles).toEqual([table, shuffled_deck, die]);
+    
+})
