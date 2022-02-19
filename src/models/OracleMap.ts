@@ -38,8 +38,12 @@ export function pickall(oracle_map: OracleMap): OracleMap
 
 export function sum_oracles(oracle_map: OracleMap): number
 {
-    return oracle_values(oracle_map).reduce(
-        (cur, acc) => acc += cur);
+    if (oracle_map.length == 0) {
+        return 0;
+    } else {
+        return oracle_values(oracle_map).reduce(
+            (cur, acc) => acc += cur);
+    }
 }
 
 export function oracle_values(oracle_map: OracleMap): number[]
