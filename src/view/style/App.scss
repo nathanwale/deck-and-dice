@@ -1,5 +1,6 @@
 @import 'theme';
 @import 'Groups';
+@import 'Library';
 
 body {
   background-color: #ddd;
@@ -8,5 +9,6 @@ body {
 .App {
   text-align: center;
   padding: 2em;
+  display: flex;
 }
 

@@ -70,3 +70,22 @@
         grid-area: summary;
     }
 }
+
+.add-group {
+    button {
+        @extend %empty-button;
+        background-color: transparent;
+        width: 4rem;
+        height: 4rem;
+        font-size: 3em;
+        font-weight: bold;
+        border-color: $darkest;
+        align-self: center;
+        margin-top: 0.25rem;
+    }
+
+    button:hover {
+        background-color: $lightest;
+        cursor: pointer;
+    }
+}

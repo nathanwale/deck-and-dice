@@ -4,6 +4,7 @@ import './style/App.scss';
 import * as Oracle from '../models/Oracle'
 import * as OracleGroup from '../models/Group'
 import { Group } from './Group';
+import { Library } from './Library';
 
 let oracles = [
   Oracle.shuffled_deck("Pick a letter", Oracle.options_from_names("A23456789JQK".split(""))),
@@ -19,12 +20,48 @@ let group: OracleGroup.Group = {
   frame: { origin: {x: 0, y: 0}, end: {x: 10, y: 10}}
 }
 
-function App() {
-  return (
+let init_groups = [group];
+
+function show_groups(groups: OracleGroup.Group[]): JSX.Element[]
+{
+  return groups.map((g, i) => <Group group={g} key={i} />);
+}
+
+function App() 
+{
+  const [show_library, set_show_library] = React.useState(false);
+  const [groups, set_groups] = React.useState(init_groups);
+  
+  function open_library()
+  {
+    set_show_library(true);
+  }
+
+  function on_done(group: OracleGroup.Group)
+  {
+    set_groups(groups.concat(group));
+    set_show_library(false);
+  }
+
+  function library_view(is_open: boolean): JSX.Element
+  {
+      if (is_open) {
+          return <Library oracles={ oracles } 
+                          on_done={ group => on_done(group) } />
+      } else {
+          return <></>
+      }
+  }
+
+  return ( <>
+    { library_view(show_library) }
     <div className="App">
-      <Group group={group} />
+      { show_groups(groups)}
+      <div className='add-group'>
+        <button onClick={open_library}>➕</button>
     </div>
-  );
+    </div>
+  </>);
 }
 
 export default App;

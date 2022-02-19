@@ -1,0 +1,29 @@
+.library {
+    position: absolute;
+    display: grid;
+    grid-template-areas:
+        "oracles group"
+        "oracles menu";
+    gap: 0.5rem;
+    .oracles {
+        grid-area: oracles;
+        display: flex;
+        padding: 1em;
+        color: $light;
+        background-color: $darkest;
+        border-radius: 0.5em;
+        box-shadow: rgba($color: #000000, $alpha: 0.5) 0.1em 0.1em;
+        button {
+            min-width: 5em;
+            margin: 1em;
+        }
+    }
+
+    .group {
+        grid-area: group;
+    }
+
+    .menu {
+        grid-area: menu;
+    }
+}
