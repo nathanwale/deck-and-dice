@@ -3,9 +3,16 @@ import * as Oracle from '../models/Oracle'
 export type OracleId = number;
 export type OracleDeck = [Oracle.Option, number];
 export type OracleResult = Oracle.Option | OracleDeck
-export type OracleMap = [OracleId, Oracle.Oracle, OracleResult][]
+export type OracleMapEntry = [OracleId, Oracle.Oracle, OracleResult]
+export type OracleMap = OracleMapEntry[]
 
-
+export function update(oracle_map: OracleMap, id: OracleId, result: OracleResult): OracleMap
+{
+    let index = index_from_id(oracle_map, id);
+    let new_map = [...oracle_map]
+    oracle_map[index][2] = result; 
+    return new_map;
+}
 
 export function index_from_id(oracle_map: OracleMap, id: OracleId): number
 {
