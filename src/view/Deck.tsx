@@ -1,25 +1,24 @@
 import React from 'react';
 import * as Oracle from '../models/Oracle';
 import * as OracleMap from '../models/OracleMap';
-import * as ViewModel from './ViewModel';
 
 type Props = { 
     id: OracleMap.OracleId,
     deck: Oracle.Oracle,
     latest: Oracle.Option,
     index: number,
-    dispatcher: React.Dispatch<ViewModel.Action>,
+    picker: () => void,
 }
 
 export function create(
     oracle: Oracle.Oracle, result: OracleMap.OracleDeck, 
-    id: OracleMap.OracleId, dispatcher: React.Dispatch<ViewModel.Action>): JSX.Element
+    id: OracleMap.OracleId, picker: () => void): JSX.Element
 {
     let [card, card_index] = result;
     return <ShuffledDeck 
                 deck={oracle} latest={card} 
                 index={card_index} key={id} id={id} 
-                dispatcher={dispatcher}/>
+                picker={picker}/>
 }
 
 function DiscardPile(props: { card: Oracle.Option | null })
@@ -33,13 +32,13 @@ function DiscardPile(props: { card: Oracle.Option | null })
   )
 }
 
-function UndealtDeck(props: { deck: Oracle.Oracle, index: number, dispatcher: ()=>void })
+function UndealtDeck(props: { deck: Oracle.Oracle, index: number, picker: ()=>void })
 {
   let is_exhausted = Oracle.is_exhausted(props.deck, props.index);
   let class_name = is_exhausted ? "undealt-none" : "undealt";
   let content = is_exhausted ? "" : "?";
   return (
-    <button onClick={ props.dispatcher } className={ class_name }>
+    <button onClick={ props.picker } className={ class_name }>
         { content }
     </button>
   )
@@ -47,16 +46,11 @@ function UndealtDeck(props: { deck: Oracle.Oracle, index: number, dispatcher: ()
 
 export function ShuffledDeck(props: Props)
 {
-    let action: ViewModel.Action = {
-    type: ViewModel.ActionType.DealNext,
-        id: props.id,
-        value: props.index,
-    }
     return (
         <div className="deck subgroup">
             <UndealtDeck 
                 deck={ props.deck} index={ props.index} 
-                dispatcher={ () => props.dispatcher(action) } />
+                picker={ props.picker } />
             <DiscardPile card={ props.latest } />
         </div>
     )

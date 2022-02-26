@@ -1,33 +1,27 @@
 import React from 'react';
 import * as Oracle from '../models/Oracle';
 import * as OracleMap from '../models/OracleMap';
-import * as ViewModel from './ViewModel';
 
 type Props = { 
     oracle: Oracle.Oracle,
     result: Oracle.Option,
-    dispatcher: () => void,
+    picker: () => void,
 }
 
 export function create(
-        oracle: Oracle.Oracle, result: Oracle.Option, 
-        id: OracleMap.OracleId, dispatcher: React.Dispatch<ViewModel.Action>): JSX.Element
+    oracle: Oracle.Oracle, result: Oracle.Option, 
+    id: OracleMap.OracleId, picker: () => void): JSX.Element
 {
-    let action = {
-        type: ViewModel.ActionType.PickOne, 
-        value: null,
-        id: id,
-    }
     return <Table 
                 oracle={oracle} result={result} 
-                key={id} dispatcher={() => dispatcher(action)}/>
+                key={id} picker={ picker }/>
 }
 
 export function Table(props:Props)
 {
     return (
         <div className='subgroup table'>
-            <button onClick={ props.dispatcher }>
+            <button onClick={ props.picker }>
                 { props.result.name }
             </button>
         </div>
