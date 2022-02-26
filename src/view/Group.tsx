@@ -34,7 +34,8 @@ function build_oracle_map(oracles: Oracle.Oracle[]): OracleMap.OracleMap
 export function Group(props: Props)
 {
     let [oracle_map, set_oracle_map] = React.useState(build_oracle_map(props.group.oracles));
-    let [total, set_total] = React.useState(0);
+    let init_total = OracleMap.sum_oracles(oracle_map);
+    let [total, set_total] = React.useState(init_total);
 
     function update_total()
     {
