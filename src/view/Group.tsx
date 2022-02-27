@@ -12,6 +12,8 @@ type Props = {
 
 let next_key = 0;
 
+type OracleUpdater = (id: OracleMap.OracleId, result: OracleMap.OracleResult) => void
+
 function build_oracle_map(oracles: Oracle.Oracle[]): OracleMap.OracleMap
 {
     return oracles.map(
@@ -27,6 +29,55 @@ function build_oracle_map(oracles: Oracle.Oracle[]): OracleMap.OracleMap
             return [next_key++, oracle, result]
         }
     );
+}
+
+function view_from_oracle_style(
+    oracle: Oracle.Oracle, 
+    result: OracleMap.OracleResult,
+    id: OracleMap.OracleId,
+    update_oracle: OracleUpdater): JSX.Element
+{
+    switch (oracle.style) {
+        case Oracle.Style.Cards:
+            return ShuffledDeck.create(oracle, result as OracleMap.OracleDeck, id,
+                () => {
+                    let card_index: number =  (result as OracleMap.OracleDeck)[1];
+                    let new_result = Oracle.next(oracle, card_index);
+                    update_oracle(id, new_result);
+                }
+            );
+        case Oracle.Style.Die:
+            return Die.create(oracle, result as Oracle.Option, id, 
+                () => { 
+                    let new_result = Oracle.pick(oracle);
+                    update_oracle(id, new_result);
+                }
+            );
+        case Oracle.Style.Table:
+            return Table.create(
+                oracle, result as Oracle.Option, id, 
+                () => { 
+                    let new_result = Oracle.pick(oracle);
+                    update_oracle(id, new_result);
+                }
+            );
+    }
+}
+
+function views_from_oracles(
+    oracle_map: OracleMap.OracleMap,
+    update_oracle: OracleUpdater): JSX.Element[]
+{
+    if (oracle_map.length === 0) {
+        return [<button key='0' className='none'>Add an oracle</button>]
+    } else {
+        return oracle_map.map(
+            (entry, index) => {
+                let [id, oracle, result] = entry;
+                return view_from_oracle_style(oracle, result, id, update_oracle);
+            }
+        );
+    }
 }
 
 export function Group(props: Props)
@@ -57,59 +108,12 @@ export function Group(props: Props)
         oracle_map = OracleMap.pickall(oracle_map);
         set_oracle_map(oracle_map);
     }
-
-    function view_from_oracle_style(
-        oracle: Oracle.Oracle, 
-        result: OracleMap.OracleResult,
-        id: OracleMap.OracleId): JSX.Element
-    {
-        switch (oracle.style) {
-            case Oracle.Style.Cards:
-                return ShuffledDeck.create(oracle, result as OracleMap.OracleDeck, id,
-                    () => {
-                        let card_index: number =  (result as OracleMap.OracleDeck)[1];
-                        let new_result = Oracle.next(oracle, card_index);
-                        update_oracle(id, new_result);
-                    }
-                );
-            case Oracle.Style.Die:
-                return Die.create(oracle, result as Oracle.Option, id, 
-                    () => { 
-                        let new_result = Oracle.pick(oracle);
-                        update_oracle(id, new_result);
-                    }
-                );
-            case Oracle.Style.Table:
-                return Table.create(
-                    oracle, result as Oracle.Option, id, 
-                    () => { 
-                        let new_result = Oracle.pick(oracle);
-                        update_oracle(id, new_result);
-                    }
-                );
-        }
-    }
-
-    function views_from_oracles(oracle_map: OracleMap.OracleMap): JSX.Element[]
-    {
-        if (oracle_map.length === 0) {
-            return [<button key='0' className='none'>Add an oracle</button>]
-        } else {
-            return oracle_map.map(
-                (entry, index) => {
-                    let [id, oracle, result] = entry;
-                    return view_from_oracle_style(oracle, result, id);
-                }
-            );
-        }
-    }
     
-
     return (
         <>
         <div className='group'>
             <div className='group-items'>
-                { views_from_oracles(oracle_map) }
+                { views_from_oracles(oracle_map, update_oracle) }
             </div>
             <button 
                 className='pickall'
