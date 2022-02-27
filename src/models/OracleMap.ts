@@ -6,6 +6,8 @@ export type OracleResult = Oracle.Option | OracleDeck
 export type OracleMapEntry = [OracleId, Oracle.Oracle, OracleResult]
 export type OracleMap = OracleMapEntry[]
 
+
+
 export function update(oracle_map: OracleMap, id: OracleId, result: OracleResult): OracleMap
 {
     let index = index_from_id(oracle_map, id);
@@ -18,7 +20,7 @@ export function index_from_id(oracle_map: OracleMap, id: OracleId): number
 {
     let index = 0;
     for (const entry of oracle_map) {
-        if (entry[0] == id) {
+        if (entry[0] === id) {
             return index;
         }
         index++;
@@ -45,7 +47,7 @@ export function pickall(oracle_map: OracleMap): OracleMap
 
 export function sum_oracles(oracle_map: OracleMap): number
 {
-    if (oracle_map.length == 0) {
+    if (oracle_map.length === 0) {
         return 0;
     } else {
         return oracle_values(oracle_map).reduce(
