@@ -6,8 +6,6 @@ import * as ShuffledDeck from './Deck'
 import * as Die from './Die'
 import * as Table from './Table'
 
-import * as ViewModel from './ViewModel';
-
 type Props = { 
     group: OracleGroup.Group
 }
@@ -33,20 +31,24 @@ function build_oracle_map(oracles: Oracle.Oracle[]): OracleMap.OracleMap
 
 export function Group(props: Props)
 {
-    let [oracle_map, set_oracle_map] = React.useState(build_oracle_map(props.group.oracles));
-    let init_total = OracleMap.sum_oracles(oracle_map);
-    let [total, set_total] = React.useState(init_total);
+    let [oracle_map, set_oracle_map] = React.useState([] as OracleMap.OracleMap);
+    let [total, set_total] = React.useState(0);
 
-    function update_total()
+    React.useEffect(() =>
     {
         let new_total = OracleMap.sum_oracles(oracle_map);
         set_total(new_total);
-    }
+    })
+
+    React.useEffect(() =>
+    {
+        let map = build_oracle_map(props.group.oracles);
+        set_oracle_map(map);
+    }, [props.group.oracles]);
 
     function update_oracle(id: OracleMap.OracleId, result: OracleMap.OracleResult)
     {
         let new_map = OracleMap.update(oracle_map, id, result);
-        update_total();
         set_oracle_map(new_map);
     }
 
@@ -54,11 +56,10 @@ export function Group(props: Props)
     {
         oracle_map = OracleMap.pickall(oracle_map);
         set_oracle_map(oracle_map);
-        update_total();
     }
 
     function view_from_oracle_style(
-        index: number, oracle: Oracle.Oracle, 
+        oracle: Oracle.Oracle, 
         result: OracleMap.OracleResult,
         id: OracleMap.OracleId): JSX.Element
     {
@@ -91,12 +92,16 @@ export function Group(props: Props)
 
     function views_from_oracles(oracle_map: OracleMap.OracleMap): JSX.Element[]
     {
-        return oracle_map.map(
-            (entry, index) => {
-                let [id, oracle, result] = entry;
-                return view_from_oracle_style(index, oracle, result, id);
-            }
-        );
+        if (oracle_map.length === 0) {
+            return [<button key='0' className='none'>Add an oracle</button>]
+        } else {
+            return oracle_map.map(
+                (entry, index) => {
+                    let [id, oracle, result] = entry;
+                    return view_from_oracle_style(oracle, result, id);
+                }
+            );
+        }
     }
     
 
