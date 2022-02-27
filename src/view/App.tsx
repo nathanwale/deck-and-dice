@@ -7,11 +7,11 @@ import { Group } from './Group';
 import { Library } from './Library';
 
 let oracles = [
-  Oracle.shuffled_deck("Pick a letter", Oracle.options_from_names("A23456789JQK".split(""))),
+  Oracle.shuffled_deck("Card deck", Oracle.options_from_names("A23456789JQK".split(""))),
   Oracle.die_with_sides("Challenge", 8),
   Oracle.die_with_sides("Action", 6),
   Oracle.die_with_sides("Challenge", 8),
-  Oracle.table_from_options("", Oracle.options_from_names(["Scheme", "Falter", "Advance", "Destroy", "Avoid", "Reveal"])),
+  Oracle.table_from_options("Motivation", Oracle.options_from_names(["Scheme", "Falter", "Advance", "Destroy", "Avoid", "Reveal"])),
 ]
 
 let group: OracleGroup.Group = {
@@ -48,8 +48,7 @@ function App()
   function library_view(is_open: boolean): JSX.Element
   {
       if (is_open) {
-          return <Library oracles={ oracles } 
-                          on_done={ group => on_done(group) } />
+          return <Library on_done={ group => on_done(group) } />
       } else {
           return <></>
       }
@@ -58,7 +57,7 @@ function App()
   return ( <>
     { library_view(show_library) }
     <div className="App">
-      { show_groups(groups)}
+      { show_groups(groups) }
       <div className='add-group'>
         <button onClick={open_library}>➕</button>
     </div>
