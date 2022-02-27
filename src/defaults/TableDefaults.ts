@@ -1,0 +1,65 @@
+export type TableConfig = [string, string[]];
+
+export const tables: TableConfig[] = [
+    ["Motives", 
+        [
+            "Love",
+            "Money",
+            "Safety",
+            "Fear",
+            "Superstition",
+            "Duty",
+            "Boredom",
+        ]
+    ],
+    ["Animals",
+        [
+            "Deer",
+            "Bear",
+            "Eagle",
+            "Boar",
+            "Squirrel",
+            "Horse",
+            "Ox",
+            "Rat",
+        ]
+    ],
+    ["Villager",
+        [
+            "Beggar",
+            "Thief",
+            "Guard",
+            "Drunk",
+            "Seller",
+            "Shyster",
+            "Worker",
+            "Child",
+        ]
+    ],
+    ["Monsters",
+        [
+            "Goblin",
+            "Troll",
+            "Werewolf",
+            "Imp",
+            "Giant",
+            "Kobold",
+            "Dragon",
+        ]
+    ],
+    ["Weather",
+        [
+            "Cloudy",
+            "Sunny",
+            "Mild",
+            "Cold",
+            "Freezing",
+            "Storms",
+            "Rainy",
+            "Hot",
+            "Hail",
+            "Snow",
+        ]
+    ],
+
+]
