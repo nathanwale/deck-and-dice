@@ -1,18 +1,23 @@
 .library {
+    width: 90vw;
     position: absolute;
     display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 1fr 1fr;
     grid-template-areas:
         "oracles group"
         "oracles menu";
-    gap: 0.5rem;
     .oracles {
         grid-area: oracles;
-        display: flex;
         padding: 1em;
         color: $light;
         background-color: $darkest;
         border-radius: 0.5em;
         box-shadow: rgba($color: #000000, $alpha: 0.5) 0.1em 0.1em;
+        section {
+            display: flex;
+            flex-wrap: wrap;
+        }
         button {
             min-width: 5em;
             margin: 1em;
