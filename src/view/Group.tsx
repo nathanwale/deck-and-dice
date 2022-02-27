@@ -120,6 +120,7 @@ export function Group(props: Props)
     return (
         <>
         <div className='group'>
+            <header>{ props.group.title }</header>
             <div className='group-items'>
                 { views_from_oracles(oracle_map, update_oracle) }
             </div>

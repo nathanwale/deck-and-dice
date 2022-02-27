@@ -5,7 +5,7 @@ import * as GroupModel from '../models/Group';
 import * as Defaults from '../defaults/Defaults'
 
 type Props = {
-    on_done: (group: GroupModel.Group) => void
+    on_done: (group: GroupModel.Group, title: string) => void
 }
 
 type SectionProps = {

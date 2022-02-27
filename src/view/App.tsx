@@ -15,7 +15,7 @@ let oracles = [
 ]
 
 let group: OracleGroup.Group = {
-  title: "Group",
+  title: "Example",
   oracles: oracles,
   frame: { origin: {x: 0, y: 0}, end: {x: 10, y: 10}}
 }
@@ -37,9 +37,10 @@ function App()
     set_show_library(true);
   }
 
-  function on_done(group: OracleGroup.Group)
+  function on_done(group: OracleGroup.Group, title: string)
   {
     if (group.oracles.length > 0) {
+        group.title = title;
         set_groups(groups.concat(group));
     }
     set_show_library(false);
@@ -48,7 +49,7 @@ function App()
   function library_view(is_open: boolean): JSX.Element
   {
       if (is_open) {
-          return <Library on_done={ group => on_done(group) } />
+          return <Library on_done={ (group, title) => on_done(group, title) } />
       } else {
           return <></>
       }
