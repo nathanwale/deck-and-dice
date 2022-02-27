@@ -84,6 +84,7 @@ export function Group(props: Props)
 {
     let [oracle_map, set_oracle_map] = React.useState([] as OracleMap.OracleMap);
     let [total, set_total] = React.useState(0);
+    let [show_total, set_show_total] = React.useState(false);
 
     React.useEffect(() =>
     {
@@ -94,6 +95,13 @@ export function Group(props: Props)
     React.useEffect(() =>
     {
         let map = build_oracle_map(props.group.oracles);
+        let dice_count = 0;
+        for (const oracle of props.group.oracles) {
+            if (oracle.style == Oracle.Style.Die) {
+                dice_count++;
+            }
+        }
+        set_show_total(dice_count >= 2);
         set_oracle_map(map);
     }, [props.group.oracles]);
 
@@ -118,7 +126,7 @@ export function Group(props: Props)
             <button 
                 className='pickall'
                 onClick={ pick_all }>↺</button>
-            <div className='total'>Total: {total}</div>
+            { show_total && <div className='total'>Total: {total}</div> }
         </div>
         </>
     )
