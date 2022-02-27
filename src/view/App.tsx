@@ -39,7 +39,9 @@ function App()
 
   function on_done(group: OracleGroup.Group)
   {
-    set_groups(groups.concat(group));
+    if (group.oracles.length > 0) {
+        set_groups(groups.concat(group));
+    }
     set_show_library(false);
   }
 
