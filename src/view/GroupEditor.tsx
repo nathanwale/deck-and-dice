@@ -13,10 +13,6 @@ export function GroupEditor(props: Props)
         <Group group={props.group} />
         <div className='menu'>
             <input type='text' />
-            <label>
-                <input type='checkbox' checked={false} readOnly={true} />
-                Show total
-            </label>
         </div>
         <button className='done' onClick={() => props.on_done(props.group)}>Done</button>
     </div>
