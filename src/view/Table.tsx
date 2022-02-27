@@ -21,6 +21,7 @@ export function Table(props:Props)
 {
     return (
         <div className='subgroup table'>
+            <span className='name'>{props.oracle.name}</span>
             <button onClick={ props.picker }>
                 { props.result.name }
             </button>

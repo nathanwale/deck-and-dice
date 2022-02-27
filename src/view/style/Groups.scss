@@ -25,23 +25,47 @@
         border-left: none;
     }
 
+    .name {
+        display: block;
+        font-size: 0.8em;
+        font-weight: bold;
+        color: $middark;
+        border-bottom: 1px solid $light;
+        padding-bottom: 0.3em;
+        margin-left: -0.5em;
+        margin-right: -0.5em;
+    }
+
     .deck {
-        display: flex;
-        gap: 0.5em;
+        display: grid;
+        column-gap: 0.5em;
+        grid-template-areas: 
+            "name name"
+            "undealt dealt";
 
         button {
             @extend %light-button;
             width: 3em;
             height: 4em;
+            margin-top: 0.5em;
         }
 
         .undealt {
             @extend %dark-button;
+            grid-area: undealt;
         }
 
         .undealt-none,
         .card-space {
             @extend %empty-button;
+        }
+
+        .dealt {
+            grid-area: dealt;
+        }
+
+        .name {
+            grid-area: name;
         }
     }
 

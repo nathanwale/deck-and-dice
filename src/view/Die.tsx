@@ -20,6 +20,7 @@ export function Die(props:Props)
 {
     return (
         <div className='subgroup die'>
+            <span className='name'>{props.die.name}</span>
             <button onClick={ props.picker }>
                 { props.result.value! }
             </button>

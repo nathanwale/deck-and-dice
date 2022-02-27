@@ -48,6 +48,7 @@ export function ShuffledDeck(props: Props)
 {
     return (
         <div className="deck subgroup">
+            <span className='name'>{props.deck.name}</span>
             <UndealtDeck 
                 deck={ props.deck} index={ props.index} 
                 picker={ props.picker } />
