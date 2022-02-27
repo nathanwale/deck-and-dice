@@ -69,6 +69,14 @@
     .summary {
         grid-area: summary;
     }
+
+    .none {
+        @extend %empty-button;
+        font-style: italic;
+        width: 5em;
+        height: 3em;
+        margin: 0.5em;
+    }
 }
 
 .add-group {
@@ -88,4 +96,10 @@
         background-color: $lightest;
         cursor: pointer;
     }
+}
+
+.group-edit {
+    background-color: $lightest;
+    padding: 0.5em;
+    border-radius: 0.5em;
 }
