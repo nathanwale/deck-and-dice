@@ -4,12 +4,10 @@ export function Info() {
     return (
         <div className="info">
             <h1>
-                A Match Three Game written in React
+                A set of tools for pen-and-paper role-playing games
             </h1>
             <p>
-                This is a Match Three game written in <a href="https://reactjs.org/">React.</a> I started 
-                with the <a href="https://reactjs.org/tutorial/tutorial.html">Tic Tac Toe tutorial</a> on 
-                the React site, and just kept going.
+                This is a set of tools for pen-and-paper RPGs written in <a href="https://reactjs.org/">React.</a> 
             </p>
             <p>
                 You can view the source for it on GitHub <a href='https://github.com/nathanwale/match-three-react'>here</a>.
