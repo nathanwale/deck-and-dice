@@ -5,6 +5,7 @@ import * as Oracle from '../models/Oracle'
 import * as OracleGroup from '../models/Group'
 import { Group } from './Group';
 import { Library } from './Library';
+import { Info } from './Info';
 
 let oracles = [
   Oracle.shuffled_deck("Card deck", Oracle.options_from_names("A23456789JQK".split(""))),
@@ -63,6 +64,7 @@ function App()
             <button onClick={open_library}>➕</button>
         </div>
     </div>
+    <Info />
   </>);
 }
 
