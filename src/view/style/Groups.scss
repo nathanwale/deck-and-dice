@@ -1,16 +1,31 @@
 .group {
+    text-align: center;
     width: fit-content;
     grid-template-columns: auto 1fr;
     display: grid;
     grid-template-areas:
-        "items pickall"
-        "summary x";
+        "title   x"
+        "items   pickall"
+        "summary y";
+
+    header {
+        grid-area: title;
+        font-weight: bold;
+        font-size: 0.8em;
+        background-color: $darkest;
+        color: $lightest;
+        padding: 0.5em 1em;
+        border-top-right-radius: 0.5em;
+        border-top-left-radius: 0.5em;
+        margin: 0 0.5em;
+        width: fit-content;
+    }
 
     .group-items {
         grid-area: items;
         display: flex;
-        border: 1px solid #ccc;
-        border-radius: 1em;
+        border: 1px solid $darkest;
+        border-radius: 0.5em;
         padding: 0;
         width: fit-content;
         background-color: white;
@@ -92,6 +107,16 @@
 
     .summary {
         grid-area: summary;
+        font-weight: bold;
+        font-size: 0.8em;
+        background-color: $darkest;
+        color: $lightest;
+        padding: 0.5em 1em;
+        border-bottom-right-radius: 0.5em;
+        border-bottom-left-radius: 0.5em;
+        margin: 0 0.5em;
+        width: fit-content;
+        justify-self: right;
     }
 
     .none {
@@ -113,7 +138,8 @@
         font-weight: bold;
         border-color: $darkest;
         align-self: center;
-        margin-top: 0.25rem;
+        margin-top: 1em;
+        margin-left: 1em;
     }
 
     button:hover {
@@ -126,4 +152,28 @@
     background-color: $lightest;
     padding: 0.5em;
     border-radius: 0.5em;
+    text-align: left;
+
+    label {
+        display: block;
+        margin-top: 1em;
+        padding: 1em;
+        border-top: 1px solid $light;
+    }
+
+    input {
+        margin-left: 0.5em;
+    }
+
+    button {
+        margin: 0.5em;
+    }
+
+
+    button.cancel {
+        border: none;
+        background-color: transparent;
+        border-bottom: 1px dashed $middark;
+        margin-left: 2em;
+    }
 }
