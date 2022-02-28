@@ -37,9 +37,9 @@ function App()
     set_show_library(true);
   }
 
-  function on_done(group: OracleGroup.Group, title: string)
+  function on_done(group: OracleGroup.Group | null, title: string)
   {
-    if (group.oracles.length > 0) {
+    if (group !== null && group?.oracles.length > 0) {
         group.title = title;
         set_groups(groups.concat(group));
     }
@@ -56,12 +56,12 @@ function App()
   }
 
   return ( <>
-    { library_view(show_library) }
     <div className="App">
-      { show_groups(groups) }
-      <div className='add-group'>
-        <button onClick={open_library}>➕</button>
-    </div>
+        { library_view(show_library) }
+        { show_groups(groups) }
+        <div className='add-group'>
+            <button onClick={open_library}>➕</button>
+        </div>
     </div>
   </>);
 }

@@ -90,7 +90,7 @@ export function Group(props: Props)
     {
         let new_total = OracleMap.sum_oracles(oracle_map);
         set_total(new_total);
-    })
+    }, [props.group.oracles])
 
     React.useEffect(() =>
     {
@@ -127,7 +127,7 @@ export function Group(props: Props)
             <button 
                 className='pickall'
                 onClick={ pick_all }>↺</button>
-            { show_total && <div className='total'>Total: {total}</div> }
+            { show_total && <div className='summary'>Total: {total}</div> }
         </div>
         </>
     )
