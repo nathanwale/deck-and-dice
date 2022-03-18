@@ -41,15 +41,15 @@ function view_from_oracle_style(
         case Oracle.Style.Cards:
             return ShuffledDeck.create(oracle, result as OracleMap.OracleDeck, id,
                 () => {
-                    let card_index: number =  (result as OracleMap.OracleDeck)[1];
-                    let new_result = Oracle.next(oracle, card_index);
+                    const card_index: number =  (result as OracleMap.OracleDeck)[1];
+                    const new_result = Oracle.next(oracle, card_index);
                     update_oracle(id, new_result);
                 }
             );
         case Oracle.Style.Die:
             return Die.create(oracle, result as Oracle.Option, id, 
                 () => { 
-                    let new_result = Oracle.pick(oracle);
+                    const new_result = Oracle.pick(oracle);
                     update_oracle(id, new_result);
                 }
             );
@@ -57,7 +57,7 @@ function view_from_oracle_style(
             return Table.create(
                 oracle, result as Oracle.Option, id, 
                 () => { 
-                    let new_result = Oracle.pick(oracle);
+                    const new_result = Oracle.pick(oracle);
                     update_oracle(id, new_result);
                 }
             );
@@ -72,8 +72,8 @@ function views_from_oracles(
         return [<button key='0' className='none'>Add an oracle</button>]
     } else {
         return oracle_map.map(
-            (entry, index) => {
-                let [id, oracle, result] = entry;
+            (entry) => {
+                const [id, oracle, result] = entry;
                 return view_from_oracle_style(oracle, result, id, update_oracle);
             }
         );
@@ -82,19 +82,19 @@ function views_from_oracles(
 
 export function Group(props: Props)
 {
-    let [oracle_map, set_oracle_map] = React.useState([] as OracleMap.OracleMap);
-    let [total, set_total] = React.useState(0);
-    let [show_total, set_show_total] = React.useState(false);
+    const [oracle_map, set_oracle_map] = React.useState([] as OracleMap.OracleMap);
+    const [total, set_total] = React.useState(0);
+    const [show_total, set_show_total] = React.useState(false);
 
     React.useEffect(() =>
     {
-        let new_total = OracleMap.sum_oracles(oracle_map);
+        const new_total = OracleMap.sum_oracles(oracle_map);
         set_total(new_total);
     }, [props.group.oracles])
 
     React.useEffect(() =>
     {
-        let map = build_oracle_map(props.group.oracles);
+        const map = build_oracle_map(props.group.oracles);
         let dice_count = 0;
         for (const oracle of props.group.oracles) {
             if (oracle.style == Oracle.Style.Die) {
@@ -107,14 +107,14 @@ export function Group(props: Props)
 
     function update_oracle(id: OracleMap.OracleId, result: OracleMap.OracleResult)
     {
-        let new_map = OracleMap.update(oracle_map, id, result);
+        const new_map = OracleMap.update(oracle_map, id, result);
         set_oracle_map(new_map);
     }
 
     function pick_all()
     {
-        oracle_map = OracleMap.pickall(oracle_map);
-        set_oracle_map(oracle_map);
+        const new_oracle_map = OracleMap.pickall(oracle_map);
+        set_oracle_map(new_oracle_map);
     }
     
     return (

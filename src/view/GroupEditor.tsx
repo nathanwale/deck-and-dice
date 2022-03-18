@@ -9,20 +9,22 @@ type Props = {
 
 export function GroupEditor(props: Props)
 {
-    let [title, set_title] = React.useState(props.group.title)
+    const [title, set_title] = React.useState(props.group.title)
 
     React.useEffect(() => {
         props.group.title = title;
-    })
+    }, [title, props.group.title])
+
+    function update_title(event: React.ChangeEvent<HTMLInputElement>) {
+        set_title(() => event.target.value);
+    }
 
     return <div className='group-edit'>
         <Group group={props.group} />
         <div className='menu'>
             <label>
                 Title: 
-                <input type='text' value={title} onChange={(e) => {
-                    set_title(e.target.value);
-                }} />
+                <input type='text' value={title} onChange={ update_title } />
             </label>
         </div>
         <button className='cancel' onClick={() => props.on_done(null, "")}>Cancel</button>

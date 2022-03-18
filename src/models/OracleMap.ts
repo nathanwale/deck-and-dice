@@ -61,7 +61,7 @@ export function oracle_values(oracle_map: OracleMap): number[]
         entry => {
             const [_, oracle, result] = entry;
             let option: Oracle.Option;
-            if (oracle.style == Oracle.Style.Cards) {
+            if (oracle.style === Oracle.Style.Cards) {
                 option = (result as OracleDeck)[0];
             } else {
                 option = (result as Oracle.Option)
