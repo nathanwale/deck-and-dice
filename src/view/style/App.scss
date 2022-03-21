@@ -11,6 +11,8 @@ body {
   padding: 2em;
   display: flex;
   font-family: sans-serif;
+  flex-wrap: wrap;
+  gap: 2em;
 }
 
 .info {
