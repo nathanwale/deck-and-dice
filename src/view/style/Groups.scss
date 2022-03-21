@@ -3,6 +3,7 @@
     width: fit-content;
     grid-template-columns: auto 1fr;
     display: grid;
+    grid-template-rows: auto auto 1.5em;
     grid-template-areas:
         "title   x"
         "items   pickall"
@@ -15,10 +16,12 @@
         background-color: $darkest;
         color: $lightest;
         padding: 0.5em 1em;
-        border-top-right-radius: 0.5em;
-        border-top-left-radius: 0.5em;
+        padding-bottom: 1.5em;
+        border-radius: 0.5em;
         margin: 0 0.5em;
+        margin-bottom: -1em;
         width: fit-content;
+    
     }
 
     .group-items {
