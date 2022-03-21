@@ -7,7 +7,7 @@ import { Group } from './Group';
 import { Library } from './Library';
 import { Info } from './Info';
 
-let oracles = [
+const oracles = [
   Oracle.shuffled_deck("Card deck", Oracle.options_from_names("A23456789JQK".split(""))),
   Oracle.die_with_sides("Challenge", 8),
   Oracle.die_with_sides("Action", 6),
@@ -15,17 +15,17 @@ let oracles = [
   Oracle.table_from_options("Motivation", Oracle.options_from_names(["Scheme", "Falter", "Advance", "Destroy", "Avoid", "Reveal"])),
 ]
 
-let group: OracleGroup.Group = {
+const group: OracleGroup.Group = {
   title: "Example",
   oracles: oracles,
   frame: { origin: {x: 0, y: 0}, end: {x: 10, y: 10}}
 }
 
-let init_groups = [group];
+const init_groups = [group];
 
 function show_groups(groups: OracleGroup.Group[]): JSX.Element[]
 {
-  return groups.map((g, i) => <Group group={g} key={i} />);
+  return groups.map((g, i) => <Group group={g} title={g.title} key={i} />);
 }
 
 function App() 

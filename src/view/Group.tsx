@@ -7,7 +7,8 @@ import * as Die from './Die'
 import * as Table from './Table'
 
 type Props = { 
-    group: OracleGroup.Group
+    group: OracleGroup.Group,
+    title: string,
 }
 
 let next_key = 0;
@@ -120,7 +121,7 @@ export function Group(props: Props)
     return (
         <>
         <div className='group'>
-            <header>{ props.group.title }</header>
+            <header>{ props.title }</header>
             <div className='group-items'>
                 { views_from_oracles(oracle_map, update_oracle) }
             </div>

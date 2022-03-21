@@ -46,7 +46,7 @@ export function Library(props: Props): JSX.Element
 
     function add_oracle(oracle: Oracle.Oracle)
     {
-        let updated_group = GroupModel.add_oracle(group, oracle)
+        const updated_group = GroupModel.add_oracle(group, oracle)
         set_group(updated_group);
     }
 

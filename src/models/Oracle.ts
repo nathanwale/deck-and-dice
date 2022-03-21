@@ -41,12 +41,12 @@ export function die_with_sides(name: string, sides: number)
 
 export function die_from_range(name: string, start: number, end: number): Oracle
 {
-    let range: number[] = [];
+    const range: number[] = [];
     for (let i = start; i <= end; i++) {
         range.push(i);
     }
 
-    let options: Option[] = range.map(
+    const options: Option[] = range.map(
         (n: number) => {
             return { name: n.toString(), value: n }
         });
@@ -60,7 +60,7 @@ export function die_from_range(name: string, start: number, end: number): Oracle
 
 export function shuffled_deck(name: string, options: Option[]): Oracle 
 {
-    let shuffled_options = random.shuffle(options);
+    const shuffled_options = random.shuffle(options);
     return {
         style: Style.Cards,
         options: shuffled_options,

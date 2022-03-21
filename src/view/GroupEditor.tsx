@@ -13,14 +13,14 @@ export function GroupEditor(props: Props)
 
     React.useEffect(() => {
         props.group.title = title;
-    }, [title, props.group.title])
+    }, [title])
 
     function update_title(event: React.ChangeEvent<HTMLInputElement>) {
-        set_title(() => event.target.value);
+        set_title((_prev) => event.target.value);
     }
 
     return <div className='group-edit'>
-        <Group group={props.group} />
+        <Group group={props.group} title={ title } />
         <div className='menu'>
             <label>
                 Title: 

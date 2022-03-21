@@ -7,21 +7,21 @@ import * as Oracle from '../models/Oracle'
 
 function die_from_config(config: DefaultDice.DiceConfig): Oracle.Oracle
 {
-    let [name, start, end] = config;
+    const [name, start, end] = config;
     return Oracle.die_from_range(name, start, end);
 }
 
 function table_from_config(config: DefaultTables.TableConfig): Oracle.Oracle
 {
-    let [name, options_strings] = config;
-    let options = Oracle.options_from_names(options_strings)
+    const [name, options_strings] = config;
+    const options = Oracle.options_from_names(options_strings)
     return Oracle.table_from_options(name, options);
 }
 
 function deck_from_config(config: DefaultDecks.DeckConfig): Oracle.Oracle
 {
-    let [name, options_strings] = config;
-    let options = Oracle.options_from_names(options_strings)
+    const [name, options_strings] = config;
+    const options = Oracle.options_from_names(options_strings)
     return Oracle.shuffled_deck(name, options);
 }
 

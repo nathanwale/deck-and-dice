@@ -10,8 +10,8 @@ export type OracleMap = OracleMapEntry[]
 
 export function update(oracle_map: OracleMap, id: OracleId, result: OracleResult): OracleMap
 {
-    let index = index_from_id(oracle_map, id);
-    let new_map = [...oracle_map]
+    const index = index_from_id(oracle_map, id);
+    const new_map = [...oracle_map]
     oracle_map[index][2] = result; 
     return new_map;
 }
@@ -34,10 +34,11 @@ export function pickall(oracle_map: OracleMap): OracleMap
         const [id, oracle, result] = entry;
         let new_result: OracleResult;
         switch (oracle.style) {
-            case Oracle.Style.Cards:
-                let index: number = (result as OracleDeck)[1];
+            case Oracle.Style.Cards: {
+                const index: number = (result as OracleDeck)[1];
                 new_result = Oracle.next(oracle, index);
                 break;
+            }
             default:
                 new_result = Oracle.pick(oracle);
         }

@@ -14,7 +14,7 @@ export function create(
     oracle: Oracle.Oracle, result: OracleMap.OracleDeck, 
     id: OracleMap.OracleId, picker: () => void): JSX.Element
 {
-    let [card, card_index] = result;
+    const [card, card_index] = result;
     return <ShuffledDeck 
                 deck={oracle} latest={card} 
                 index={card_index} key={id} id={id} 
@@ -23,8 +23,8 @@ export function create(
 
 function DiscardPile(props: { card: Oracle.Option | null })
 {
-  let className = (props.card === null) ? "card-space" : "card";
-  let content = (props.card === null) ? "" : props.card.name;
+  const className = (props.card === null) ? "card-space" : "card";
+  const content = (props.card === null) ? "" : props.card.name;
   return (
     <button className={ className }>
       { content }
@@ -34,9 +34,9 @@ function DiscardPile(props: { card: Oracle.Option | null })
 
 function UndealtDeck(props: { deck: Oracle.Oracle, index: number, picker: ()=>void })
 {
-  let is_exhausted = Oracle.is_exhausted(props.deck, props.index);
-  let class_name = is_exhausted ? "undealt-none" : "undealt";
-  let content = is_exhausted ? "" : "?";
+  const is_exhausted = Oracle.is_exhausted(props.deck, props.index);
+  const class_name = is_exhausted ? "undealt-none" : "undealt";
+  const content = is_exhausted ? "" : "?";
   return (
     <button onClick={ props.picker } className={ class_name }>
         { content }

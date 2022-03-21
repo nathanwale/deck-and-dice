@@ -23,7 +23,7 @@ export type ShuffledDeck = {
 
 export function as_string(deck: Deck): string
 {
-    let names = deck.cards.map((card) => card.name);
+    const names = deck.cards.map((card) => card.name);
     return names.join(", ")
 }
 
@@ -33,7 +33,7 @@ export function as_string(deck: Deck): string
 */
 export function shuffle(deck: Deck): ShuffledDeck 
 {
-    let shuffled_cards = random.shuffle(deck.cards);
+    const shuffled_cards = random.shuffle(deck.cards);
     return {
         cards: shuffled_cards,
         index: 0
@@ -56,7 +56,7 @@ export function pick(deck: Deck): Deck
 */
 export function is_exhausted(deck: ShuffledDeck): boolean
 {
-    let { cards, index } = deck;
+    const { cards, index } = deck;
     return (index >= cards.length)
 }
 
@@ -65,11 +65,10 @@ export function is_exhausted(deck: ShuffledDeck): boolean
 */
 export function deal(deck: ShuffledDeck): [Card, ShuffledDeck]
 {
-    let { cards, index } = deck;
     if (!is_exhausted(deck)) {
         deck.index++
     }
-    return [cards[deck.index-1], deck]
+    return [deck.cards[deck.index-1], deck]
 }
 
 export function join<T>(a: T[], b: T[]): T[]
@@ -82,11 +81,11 @@ export function join<T>(a: T[], b: T[]): T[]
 */
 export function remove(card: Card, deck: Deck): Deck 
 {
-    let index = deck.cards.indexOf(card);
+    const index = deck.cards.indexOf(card);
     if (index == -1) {
         return deck;
     } else {
-        let cards = join(deck.cards.slice(0, index), deck.cards.slice(index+1));
+        const cards = join(deck.cards.slice(0, index), deck.cards.slice(index+1));
         return {
             cards: cards,
             latest: (card == deck.latest) ? undefined : deck.latest, // null if latest card happens to be the one we removed
@@ -99,7 +98,7 @@ export function remove(card: Card, deck: Deck): Deck
 */
 export function append(card: Card, deck: Deck): Deck
 {
-    let new_cards = deck.cards.slice()
+    const new_cards = deck.cards.slice()
     new_cards.push(card);
     return {
         cards: new_cards,
@@ -112,7 +111,7 @@ export function append(card: Card, deck: Deck): Deck
 */
 export function undealt_cards(deck: ShuffledDeck): Card[]
 {
-    let { cards, index } = deck;
+    const { cards, index } = deck;
     return cards.slice(index)
 }
 
@@ -121,6 +120,6 @@ export function undealt_cards(deck: ShuffledDeck): Card[]
 */
 export function dealt_cards(deck: ShuffledDeck): Card[]
 {
-    let { cards, index } = deck;
+    const { cards, index } = deck;
     return cards.slice(0, index)
 }

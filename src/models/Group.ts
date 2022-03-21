@@ -13,8 +13,8 @@ export function pickall(group: Group): Oracle.Option[] {
 
 export function values(results: Oracle.Option[]): number[]
 {
-    let all_values = results.map(o => o.value);
-    let numbers_only: number[] = all_values.filter((v): v is number => !!v);
+    const all_values = results.map(o => o.value);
+    const numbers_only: number[] = all_values.filter((v): v is number => !!v);
     return numbers_only
         
 }
