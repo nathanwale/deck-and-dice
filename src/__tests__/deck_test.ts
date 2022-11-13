@@ -5,30 +5,30 @@ import * as Card from '../models/Card';
 
 
 test('Shuffled Deck initiated properly', () => {
-    let cards = Card.from_names(["a", "b", "c"])
-    let deck: Deck.ShuffledDeck = { cards: cards, index: 0 };
+    const cards = Card.from_names(["a", "b", "c"])
+    const deck: Deck.ShuffledDeck = { cards: cards, index: 0 };
     expect(deck.cards).toEqual(cards);
     expect(deck.index).toEqual(0);
     expect(Deck.as_string(deck)).toEqual("a, b, c");
 })
 
 test('appending cards to a deck', () => {
-    let cards = Card.from_names(["a", "b", "c"])
-    let [a, b, c] = cards;
-    let d = {name: "d"}
-    let e = {name: "e"}
-    let deck = { cards: cards };
+    const cards = Card.from_names(["a", "b", "c"])
+    const [a, b, c] = cards;
+    const d = {name: "d"}
+    const e = {name: "e"}
+    const deck = { cards: cards };
     expect(Deck.append(d, deck)).toEqual({cards: [a, b, c, d]}); 
     expect(Deck.append(e, deck)).toEqual({cards: [a, b, c, e]});
     expect(Deck.append(e, deck)).not.toEqual(deck);
 })
 
 test('removing cards from a deck', () => {
-    let cards = Card.from_names(["a", "b", "c"])
+    const cards = Card.from_names(["a", "b", "c"])
     cards.push({name: "a"});
-    let [a, b, c, other_a] = cards;
-    let d = {name: "d"}
-    let deck = { 
+    const [a, b, c, other_a] = cards;
+    const d = {name: "d"}
+    const deck = { 
         cards: cards,
         latest: c
      };
@@ -41,9 +41,9 @@ test('removing cards from a deck', () => {
 
 
 test('ShuffledDeck dealing cards', () => {
-    let cards = Card.from_names(["a", "b", "c"])
-    let [a, b, c] = cards;
-    let deck: Deck.ShuffledDeck = { cards: cards, index: 0 };
+    const cards = Card.from_names(["a", "b", "c"])
+    const [a, b, c] = cards;
+    const deck: Deck.ShuffledDeck = { cards: cards, index: 0 };
 
     function expect_deck (
         index: number, 
